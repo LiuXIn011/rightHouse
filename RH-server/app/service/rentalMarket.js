@@ -6,6 +6,30 @@ class rentalMarket extends Service {
   }
   async selectById(id) {
     const rentalMarket = await this.ctx.model.RentalMarket.findOne({
+      include: [
+        {
+          // 房屋信息
+          model: this.ctx.model.House,
+          attributes: [
+            'name', 'parentId',
+            'id', 'headImg',
+            'price', 'provinceName',
+            'cityName', 'areaName',
+            'addresInfo', 'depositNumber',
+            'priceNumber', 'waterFee',
+            'electricityFee', 'internetFee',
+            'fuelFee', 'area',
+            'floor', 'toward',
+            'toilet', 'kitchen',
+            'balcony'
+          ]
+        },
+        {
+          // 房东信息
+          model: this.app.model.LandlordUser,
+          attributes: [ 'name', 'headImg', 'phone' ]
+        }
+      ],
       where: {
         id
       }
@@ -47,7 +71,7 @@ class rentalMarket extends Service {
         {
           // 房东信息
           model: this.app.model.LandlordUser,
-          attributes: [ 'name', 'headImg', 'phone', 'id' ]
+          attributes: [ 'name', 'headImg' ]
         }
       ],
       // 排序
@@ -72,12 +96,6 @@ class rentalMarket extends Service {
     ) {
       option.limit = Number(params.size);
       option.offset = (Number(params.size) * (Number(params.index) - 1));
-    }
-    // 搜索参数
-    if (
-      params.sourceType
-    ) {
-      option.where.sourceType = params.sourceType;
     }
     const data = await this.ctx.model.RentalMarket.findAndCountAll(option);
     return data;

@@ -56,6 +56,14 @@ class RentalMarketController extends Controller {
       count: list.count
     };
   }
+  async selectById() {
+    const { ctx } = this;
+    const rentalMarketInfo = await ctx.service.rentalMarket.selectById(ctx.query.id);
+    ctx.body = {
+      status: 1,
+      data: rentalMarketInfo
+    };
+  }
 }
 module.exports = RentalMarketController;
 

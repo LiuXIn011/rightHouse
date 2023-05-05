@@ -28,6 +28,7 @@ module.exports = app => {
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'hot_degree',
+      defaultValue: 10,
       comment: '热度'
     },
     status: {
