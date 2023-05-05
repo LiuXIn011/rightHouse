@@ -108,9 +108,9 @@ module.exports = appInfo => {
   };
   // 性能监控平台配置
   // config.alinode = {
-  //   server: 'wss://agentserver.node.aliyun.com:8080',
-  //   appid: '91996',
-  //   secret: '01a7e6a9c6b78c461715fb44e7b39b3676ba5fa7'
+  //   server: '',
+  //   appid: '',
+  //   secret: ''
   // };
   // 跨域配置
   config.cors = {
