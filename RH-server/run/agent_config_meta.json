@@ -1,0 +1,395 @@
+{
+  "keys": "E:\\FangShi\\FS-server\\config\\config.default.js",
+  "middleware": "E:\\FangShi\\FS-server\\config\\config.default.js",
+  "errorHandler": {
+    "match": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "sequelize": {
+    "dialect": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "host": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "port": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "database": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "username": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "password": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "redis": {
+    "client": {
+      "port": "E:\\FangShi\\FS-server\\config\\config.default.js",
+      "host": "E:\\FangShi\\FS-server\\config\\config.default.js",
+      "password": "E:\\FangShi\\FS-server\\config\\config.default.js",
+      "db": "E:\\FangShi\\FS-server\\config\\config.default.js"
+    },
+    "default": "E:\\FangShi\\FS-server\\node_modules\\egg-redis\\config\\config.default.js",
+    "app": "E:\\FangShi\\FS-server\\node_modules\\egg-redis\\config\\config.default.js",
+    "agent": "E:\\FangShi\\FS-server\\node_modules\\egg-redis\\config\\config.default.js",
+    "supportTimeCommand": "E:\\FangShi\\FS-server\\node_modules\\egg-redis\\config\\config.default.js"
+  },
+  "security": {
+    "csrf": {
+      "enable": "E:\\FangShi\\FS-server\\config\\config.default.js",
+      "type": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "ignoreJSON": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "useSession": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "cookieName": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "sessionName": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "headerName": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "bodyName": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "queryName": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "supportedRequests": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "refererWhiteList": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "domainWhiteList": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+    "protocolWhiteList": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+    "defaultMiddleware": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+    "xframe": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "value": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "hsts": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.local.js",
+      "maxAge": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "includeSubdomains": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "dta": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "methodnoallow": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "noopen": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "nosniff": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "referrerPolicy": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "value": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "xssProtection": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "value": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "csp": {
+      "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "policy": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "ssrf": {
+      "ipBlackList": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "ipExceptionList": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js",
+      "checkAddress": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+    }
+  },
+  "jwt": {
+    "secret": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "sign": {
+      "expiresIn": "E:\\FangShi\\FS-server\\config\\config.default.js"
+    },
+    "enable": "E:\\FangShi\\FS-server\\node_modules\\egg-jwt\\config\\config.default.js"
+  },
+  "multipart": {
+    "mode": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "autoFields": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "defaultCharset": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "defaultParamCharset": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fieldNameSize": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fieldSize": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fields": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fileSize": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "files": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fileExtensions": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "whitelist": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "allowArrayField": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "tmpdir": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+    "cleanSchedule": {
+      "cron": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js",
+      "disable": "E:\\FangShi\\FS-server\\node_modules\\egg-multipart\\config\\config.default.js"
+    }
+  },
+  "cluster": {
+    "listen": {
+      "port": "E:\\FangShi\\FS-server\\config\\config.default.js",
+      "path": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "hostname": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    }
+  },
+  "cors": {
+    "origin": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "allowMethods": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "sms": {
+    "client": {
+      "accessKeyId": "E:\\FangShi\\FS-server\\config\\config.default.js",
+      "secretAccessKey": "E:\\FangShi\\FS-server\\config\\config.default.js"
+    },
+    "useAgent": "E:\\FangShi\\FS-server\\node_modules\\egg-sms\\config\\config.default.js"
+  },
+  "landlordMP": {
+    "appid": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "secret": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "tenantsMP": {
+    "appid": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "secret": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "uploadDir": "E:\\FangShi\\FS-server\\config\\config.default.js",
+  "minio": {
+    "endPoint": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "port": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "useSSL": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "accessKey": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "secretKey": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "urldomain": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "bucketName": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "houseMaintenanceMessage": {
+    "SignName": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "TemplateCode": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "houseSolveMaintenanceMessage": {
+    "SignName": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "TemplateCode": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "houseJoinTenantMessage": {
+    "SignName": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "TemplateCode": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "houseOutTenantMessage": {
+    "SignName": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "TemplateCode": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "houseOutLandlordMessage": {
+    "SignName": "E:\\FangShi\\FS-server\\config\\config.default.js",
+    "TemplateCode": "E:\\FangShi\\FS-server\\config\\config.default.js"
+  },
+  "session": {
+    "maxAge": "E:\\FangShi\\FS-server\\node_modules\\egg-session\\config\\config.default.js",
+    "key": "E:\\FangShi\\FS-server\\node_modules\\egg-session\\config\\config.default.js",
+    "httpOnly": "E:\\FangShi\\FS-server\\node_modules\\egg-session\\config\\config.default.js",
+    "encrypt": "E:\\FangShi\\FS-server\\node_modules\\egg-session\\config\\config.default.js",
+    "logValue": "E:\\FangShi\\FS-server\\node_modules\\egg-session\\config\\config.default.js"
+  },
+  "helper": {
+    "shtml": "E:\\FangShi\\FS-server\\node_modules\\egg-security\\config\\config.default.js"
+  },
+  "jsonp": {
+    "limit": "E:\\FangShi\\FS-server\\node_modules\\egg-jsonp\\config\\config.default.js",
+    "callback": "E:\\FangShi\\FS-server\\node_modules\\egg-jsonp\\config\\config.default.js",
+    "csrf": "E:\\FangShi\\FS-server\\node_modules\\egg-jsonp\\config\\config.default.js"
+  },
+  "onerror": {
+    "errorPageUrl": "E:\\FangShi\\FS-server\\node_modules\\egg-onerror\\config\\config.default.js",
+    "appErrorFilter": "E:\\FangShi\\FS-server\\node_modules\\egg-onerror\\config\\config.default.js",
+    "templatePath": "E:\\FangShi\\FS-server\\node_modules\\egg-onerror\\config\\config.default.js"
+  },
+  "i18n": {
+    "defaultLocale": "E:\\FangShi\\FS-server\\node_modules\\egg-i18n\\config\\config.default.js",
+    "dirs": "E:\\FangShi\\FS-server\\node_modules\\egg-i18n\\config\\config.default.js",
+    "queryField": "E:\\FangShi\\FS-server\\node_modules\\egg-i18n\\config\\config.default.js",
+    "cookieField": "E:\\FangShi\\FS-server\\node_modules\\egg-i18n\\config\\config.default.js",
+    "cookieDomain": "E:\\FangShi\\FS-server\\node_modules\\egg-i18n\\config\\config.default.js",
+    "cookieMaxAge": "E:\\FangShi\\FS-server\\node_modules\\egg-i18n\\config\\config.default.js"
+  },
+  "watcher": {
+    "type": "E:\\FangShi\\FS-server\\node_modules\\egg-watcher\\config\\config.local.js",
+    "eventSources": {
+      "default": "E:\\FangShi\\FS-server\\node_modules\\egg-watcher\\config\\config.default.js",
+      "development": "E:\\FangShi\\FS-server\\node_modules\\egg-watcher\\config\\config.default.js"
+    }
+  },
+  "customLogger": {
+    "scheduleLogger": {
+      "consoleLevel": "E:\\FangShi\\FS-server\\node_modules\\egg-schedule\\config\\config.default.js",
+      "file": "E:\\FangShi\\FS-server\\node_modules\\egg-schedule\\config\\config.default.js"
+    }
+  },
+  "schedule": {
+    "directory": "E:\\FangShi\\FS-server\\node_modules\\egg-schedule\\config\\config.default.js"
+  },
+  "development": {
+    "watchDirs": "E:\\FangShi\\FS-server\\node_modules\\egg-development\\config\\config.default.js",
+    "ignoreDirs": "E:\\FangShi\\FS-server\\node_modules\\egg-development\\config\\config.default.js",
+    "fastReady": "E:\\FangShi\\FS-server\\node_modules\\egg-development\\config\\config.default.js",
+    "reloadOnDebug": "E:\\FangShi\\FS-server\\node_modules\\egg-development\\config\\config.default.js",
+    "overrideDefault": "E:\\FangShi\\FS-server\\node_modules\\egg-development\\config\\config.default.js",
+    "overrideIgnore": "E:\\FangShi\\FS-server\\node_modules\\egg-development\\config\\config.default.js"
+  },
+  "logrotator": {
+    "filesRotateByHour": "E:\\FangShi\\FS-server\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "hourDelimiter": "E:\\FangShi\\FS-server\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "filesRotateBySize": "E:\\FangShi\\FS-server\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "maxFileSize": "E:\\FangShi\\FS-server\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "maxFiles": "E:\\FangShi\\FS-server\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "rotateDuration": "E:\\FangShi\\FS-server\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "maxDays": "E:\\FangShi\\FS-server\\node_modules\\egg-logrotator\\config\\config.default.js"
+  },
+  "static": {
+    "prefix": "E:\\FangShi\\FS-server\\node_modules\\egg-static\\config\\config.default.js",
+    "dir": "E:\\FangShi\\FS-server\\node_modules\\egg-static\\config\\config.default.js",
+    "dynamic": "E:\\FangShi\\FS-server\\node_modules\\egg-static\\config\\config.default.js",
+    "preload": "E:\\FangShi\\FS-server\\node_modules\\egg-static\\config\\config.default.js",
+    "buffer": "E:\\FangShi\\FS-server\\node_modules\\egg-static\\config\\config.default.js",
+    "maxFiles": "E:\\FangShi\\FS-server\\node_modules\\egg-static\\config\\config.default.js"
+  },
+  "view": {
+    "root": "E:\\FangShi\\FS-server\\node_modules\\egg-view\\config\\config.default.js",
+    "cache": "E:\\FangShi\\FS-server\\node_modules\\egg-view\\config\\config.local.js",
+    "defaultExtension": "E:\\FangShi\\FS-server\\node_modules\\egg-view\\config\\config.default.js",
+    "defaultViewEngine": "E:\\FangShi\\FS-server\\node_modules\\egg-view\\config\\config.default.js",
+    "mapping": "E:\\FangShi\\FS-server\\node_modules\\egg-view\\config\\config.default.js"
+  },
+  "validate": "E:\\FangShi\\FS-server\\node_modules\\egg-validate\\config\\config.default.js",
+  "env": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "name": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "cookies": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "proxy": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "maxIpsCount": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "maxProxyCount": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "protocolHeaders": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "ipHeaders": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "hostHeaders": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "pkg": {
+    "name": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "version": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "description": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "private": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "egg": {
+      "declarations": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "dependencies": {
+      "egg": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-alinode": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-cors": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-jwt": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-mysql": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-oss": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-redis": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-scripts": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-sequelize": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-sms": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-validate": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "minio": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "mysql2": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "silly-datetime": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "devDependencies": {
+      "egg-bin": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-ci": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "egg-mock": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "eslint": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "eslint-config-egg": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "engines": {
+      "node": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "scripts": {
+      "start": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "stop": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "dev": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "debug": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "test": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "test-local": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "cov": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "lint": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "ci": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "ci": {
+      "version": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "type": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "repository": {
+      "type": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "url": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "author": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "baseDir": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "HOME": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "rundir": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "dump": {
+    "ignore": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "timing": {
+      "slowBootActionMinDuration": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    }
+  },
+  "confusedConfigurations": {
+    "bodyparser": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "notFound": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "sitefile": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "middlewares": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "httpClient": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "notfound": {
+    "pageUrl": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "siteFile": {
+    "/favicon.ico": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "cacheControl": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "bodyParser": {
+    "enable": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "encoding": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "formLimit": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "jsonLimit": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "textLimit": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "strict": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "queryString": {
+      "arrayLimit": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "depth": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "parameterLimit": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "onerror": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "logger": {
+    "dir": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "encoding": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "env": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "level": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "consoleLevel": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "disableConsoleAfterReady": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "outputJSON": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "buffer": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "appLogName": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "coreLogName": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "agentLogName": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "errorLogName": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "coreLogger": {
+      "consoleLevel": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.local.js"
+    },
+    "allowDebugAtProd": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "enablePerformanceTimer": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "httpclient": {
+    "enableDNSCache": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "dnsCacheLookupInterval": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "dnsCacheMaxLength": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "request": {
+      "timeout": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "httpAgent": {
+      "keepAlive": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "freeSocketTimeout": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "maxSockets": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "maxFreeSockets": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "httpsAgent": {
+      "keepAlive": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "freeSocketTimeout": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "maxSockets": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+      "maxFreeSockets": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+    },
+    "useHttpClientNext": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "meta": {
+    "enable": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "logging": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "coreMiddleware": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "workerStartTimeout": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "serverTimeout": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+  "clusterClient": {
+    "maxWaitTime": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js",
+    "responseTimeout": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+  },
+  "onClientError": "E:\\FangShi\\FS-server\\node_modules\\egg\\config\\config.default.js"
+}

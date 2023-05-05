@@ -1,0 +1,99 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
+	"subpackages": [{
+		"root": "house_pages",
+		"pages": [{
+				"path": "house/join",
+				"style": {
+					"enablePullDownRefresh": false,
+					"navigationStyle": "custom"
+				}
+			},
+			{
+				"path": "house/history",
+				"style": {
+					"enablePullDownRefresh": false,
+					"navigationBarTextStyle": "white", //导航栏标题颜色
+					"navigationBarBackgroundColor": "#FFA92F", //导航栏背景颜色
+					"navigationBarTitleText": "历史"
+				}
+			},
+			{
+				"path": "house/maintenance",
+				"style": {
+					"navigationBarTitleText": "房间报修",
+					"navigationBarTextStyle": "white", //导航栏标题颜色
+					"navigationBarBackgroundColor": "#FFA92F", //导航栏背景颜色
+					"enablePullDownRefresh": false
+				}
+
+			},
+			{
+				"path": "house/maintenanceList",
+				"style": {
+					"navigationBarTitleText": "报修记录",
+					"navigationBarTextStyle": "white", //导航栏标题颜色
+					"navigationBarBackgroundColor": "#FFA92F", //导航栏背景颜色
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "comments/add",
+				"style": {
+					"navigationBarTitleText": "评价",
+					"navigationBarTextStyle": "white", //导航栏标题颜色
+					"navigationBarBackgroundColor": "#FFA92F", //导航栏背景颜色
+					"enablePullDownRefresh": false
+				}
+			}
+		]
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		//底部按钮配置
+		"color": "#8F8F94", //文字默认颜色
+		"selectedColor": "#333333", //文字选中时的颜色
+		"borderStyle": "black", //上边框的颜色 仅支持 black / white
+		"backgroundColor": "#FFFFFF", //tab 的背景色
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/image/tabBar/home.png",
+				"selectedIconPath": "static/image/tabBar/home-on.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/image/tabBar/user.png",
+				"selectedIconPath": "static/image/tabBar/user-on.png",
+				"text": "我的"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}
