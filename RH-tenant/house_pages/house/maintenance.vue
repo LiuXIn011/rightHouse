@@ -97,7 +97,7 @@
 				//上传
 				let token = uni.getStorageSync('token')
 				uni.uploadFile({
-					url: `${this.$baseUrl}api/file/upload`,
+					url: `${this.$baseUrl}/api/file/upload`,
 					header: {
 						'Authorization': token,
 						'content-type': 'application/x-www-form-urlencggoded;charset=UTF-8'

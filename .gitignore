@@ -27,7 +27,7 @@ coverage
 /cypress/videos/
 /cypress/screenshots/
 
-/FS-server/run
+/RH-server/run
 # Editor directories and files
 .vscode
 .github

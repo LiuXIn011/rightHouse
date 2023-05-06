@@ -100,5 +100,45 @@ class rentalMarket extends Service {
     const data = await this.ctx.model.RentalMarket.findAndCountAll(option);
     return data;
   }
+  async checkHouseStar({
+    rentalMarketId,
+    tenantId,
+    status
+  }) {
+    const option = {
+      where: {}
+    };
+    if (rentalMarketId) {
+      option.where.rentalMarketId = rentalMarketId;
+    }
+    if (tenantId) {
+      option.where.tenantId = tenantId;
+    }
+    if (status) {
+      option.where.status = status;
+    }
+    const data = await this.ctx.model.RentalMarketLinkTenant.findOne(option);
+    return data;
+  }
+  async updateStarStatus(id, status) {
+    const data = await this.ctx.model.RentalMarketLinkTenant.findOne({
+      where: {
+        id
+      }
+    });
+    data.status = status;
+    data.save();
+    return data;
+  }
+  async insertStarHouse({
+    rentalMarketId,
+    tenantId
+  }) {
+    const data = await this.ctx.model.RentalMarketLinkTenant.create({
+      rentalMarketId,
+      tenantId
+    });
+    return data;
+  }
 }
 module.exports = rentalMarket;

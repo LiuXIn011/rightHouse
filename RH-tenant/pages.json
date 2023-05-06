@@ -8,6 +8,14 @@
 			}
 		},
 		{
+			"path": "pages/market/market",
+			"style": {
+				"navigationBarTitleText": "房市",
+				"navigationBarTextStyle": "white", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#FFA92F" //导航栏背景颜色
+			}
+		},
+		{
 			"path": "pages/user/user",
 			"style": {
 				"navigationStyle": "custom"
@@ -59,6 +67,13 @@
 				}
 			},
 			{
+				"path": "house/detail",
+				"style": {
+					"navigationStyle": "custom",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
 				"path": "comments/add",
 				"style": {
 					"navigationBarTitleText": "评价",
@@ -86,6 +101,12 @@
 				"iconPath": "static/image/tabBar/home.png",
 				"selectedIconPath": "static/image/tabBar/home-on.png",
 				"text": "首页"
+			},
+			{
+				"pagePath": "pages/market/market",
+				"iconPath": "static/image/tabBar/home.png",
+				"selectedIconPath": "static/image/tabBar/home-on.png",
+				"text": "房市"
 			},
 			{
 				"pagePath": "pages/user/user",

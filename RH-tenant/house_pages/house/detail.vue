@@ -1,8 +1,9 @@
 <template>
 	<view class="page-view">
+		<u-navbar title=" " bgColor="transparent" :autoBack="true">
+		</u-navbar>
 		<u-swiper @click="swiperClick" v-if="houseInfo.headImg.length>0" :list="houseInfo.headImg" :height="300" indicator
 			indicatorMode="line" circular autoplay></u-swiper>
-
 		<view class="house-info">
 			<view class="house-name">{{houseInfo.name || ''}}</view>
 			<view class="landlord-bar">
@@ -13,7 +14,9 @@
 					</view>
 				</view>
 				<view class="btn-view">
-
+					<u-icon v-if="houseInfo.isStar" :size="24" name="star-fill" color="#FFA92F" @click="starHosue"></u-icon>
+					<u-icon v-else :size="24" name="star" @click="starHosue"></u-icon>
+					<u-icon :size="26" name="phone" @click="callUser"></u-icon>
 				</view>
 			</view>
 			<u--form :labelWidth='80' labelPosition="left" labelAlign="right">
@@ -82,7 +85,9 @@
 		data() {
 			return {
 				id: "",
-				houseInfo: {},
+				houseInfo: {
+					headImg: []
+				},
 				landlordInfo: {},
 			}
 		},
@@ -119,6 +124,43 @@
 					urls: (this.houseInfo.headImg || []).map(item => item.url)
 				})
 			},
+			callUser() {
+				if (this.landlordInfo.phone) {
+					uni.showModal({
+						title: "提示",
+						content: "是否电话联系房东？",
+						success: ({
+							confirm
+						}) => {
+							if (confirm) {
+								uni.makePhoneCall({
+									phoneNumber: this.landlordInfo.phone
+								})
+							}
+						}
+					})
+
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: "房东未留下电话，先收藏起来试试吧！"
+					})
+				}
+			},
+			starHosue() {
+				this.$http.request({
+					url: "/api/rentalMarket/starHouse",
+					data: {
+						rentalMarketId: this.id
+					}
+				}).then(({
+					status
+				}) => {
+					if (status === 1) {
+						this.getDetail()
+					}
+				})
+			},
 		}
 	}
 </script>
@@ -137,6 +179,7 @@
 				align-items: center;
 				justify-content: space-between;
 				width: 70%;
+				margin-top: 20rpx;
 
 				.landlord-head-img {
 					width: 50rpx;
@@ -160,7 +203,11 @@
 				width: 30%;
 				display: flex;
 				align-items: center;
-				
+				justify-content: flex-end;
+
+				::v-deep .u-icon {
+					margin-left: 20rpx;
+				}
 			}
 
 		}
