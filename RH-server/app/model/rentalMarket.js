@@ -61,11 +61,7 @@ module.exports = app => {
   });
   Model.associate = function() {
     // 与房子的关联关系声明
-    Model.hasOne(app.model.House, {
-      foreignKey: 'id',
-      otherKey: 'houseId'
-    });
-    app.model.House.hasOne(Model, {
+    Model.belongsTo(app.model.House, {
       foreignKey: 'houseId',
       otherKey: 'id'
     });

@@ -74,6 +74,15 @@
 				}
 			},
 			{
+				"path": "house/star",
+				"style": {
+					"navigationBarTitleText": "我的收藏",
+					"navigationBarTextStyle": "white", //导航栏标题颜色
+					"navigationBarBackgroundColor": "#FFA92F", //导航栏背景颜色
+					"enablePullDownRefresh": false
+				}
+			},
+			{
 				"path": "comments/add",
 				"style": {
 					"navigationBarTitleText": "评价",

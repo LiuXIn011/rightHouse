@@ -14,6 +14,7 @@
 				<u-cell isLink icon="setting" title="个人设置" @click="showInfoSetting"></u-cell>
 				<u-cell isLink icon="warning" title="报修记录" @click="toPath('/house_pages/house/maintenanceList')">
 				</u-cell>
+				<u-cell isLink icon="star" title="我的收藏" @click="toPath('/house_pages/house/star')"></u-cell>
 				<u-cell isLink icon="clock" title="租房历史" @click="toPath('/house_pages/house/history')"></u-cell>
 			</u-cell-group>
 		</view>

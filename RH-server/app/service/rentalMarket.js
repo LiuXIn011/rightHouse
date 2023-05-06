@@ -51,16 +51,22 @@ class rentalMarket extends Service {
     return rentalMarketObj;
   }
   async list(params) {
-    // const Op = this.app.Sequelize.Op;
+    const Op = this.app.Sequelize.Op;
     const option = {
       where: {
-        status: 1
-        // name: {
-        //   [Op.like]: params.name ? `%${params.name}%` : '%'
-        // },
-        // phone: {
-        //   [Op.like]: params.phone ? `%${params.phone}%` : '%'
-        // }
+        status: 1,
+        [Op.or]: [
+          {
+            '$house.name$': {
+              [Op.like]: params.keyword ? `%${params.keyword}%` : '%'
+            }
+          },
+          {
+            '$landlordUser.name$': {
+              [Op.like]: params.keyword ? `%${params.keyword}%` : '%'
+            }
+          }
+        ]
       },
       include: [
         {
@@ -120,12 +126,21 @@ class rentalMarket extends Service {
     const data = await this.ctx.model.RentalMarketLinkTenant.findOne(option);
     return data;
   }
-  async updateStarStatus(id, status) {
-    const data = await this.ctx.model.RentalMarketLinkTenant.findOne({
+  async updateStarStatus({
+    id, status, rentalMarketId
+  }) {
+    const option = {
       where: {
-        id
       }
-    });
+    };
+    if (id) {
+      option.where.id = id;
+    }
+    if (rentalMarketId) {
+      option.where.rentalMarketId = rentalMarketId;
+    }
+    const data = await this.ctx.model.RentalMarketLinkTenant.findOne(option);
+    console.log(data);
     data.status = status;
     data.save();
     return data;
@@ -138,6 +153,62 @@ class rentalMarket extends Service {
       rentalMarketId,
       tenantId
     });
+    return data;
+  }
+  async starHouseListAndCount({
+    tenantId,
+    rentalMarketId,
+    status
+  }) {
+    const option = {
+      attributes: [ 'hotDegree', 'houseId', 'status', 'id' ],
+      include: [
+        {
+          // 房屋信息
+          model: this.ctx.model.House,
+          attributes: [
+            'name', 'parentId',
+            'id', 'headImg',
+            'price', 'provinceName',
+            'cityName', 'areaName',
+            'addresInfo', 'depositNumber',
+            'priceNumber', 'waterFee',
+            'electricityFee', 'internetFee',
+            'fuelFee', 'area',
+            'floor', 'toward',
+            'toilet', 'kitchen',
+            'balcony'
+          ]
+        },
+        {
+          // 房东信息
+          model: this.app.model.LandlordUser,
+          attributes: [ 'name', 'headImg', 'phone' ]
+        },
+        {
+          // 关联表状态限制
+          model: this.app.model.TenantsUser,
+          required: true,
+          attributes: [],
+          through: {
+            attributes: [],
+            where: {
+              status: 1
+            }
+          }
+        }
+      ]
+    };
+    if (tenantId) {
+      option.include[2].through.where.tenantId = tenantId;
+    }
+    if (rentalMarketId) {
+      option.include[2].through.where.rentalMarketId = rentalMarketId;
+    }
+    if (status) {
+      option.include[2].through.where.status = status;
+    }
+    const data = await this.ctx.model.RentalMarket.findAndCountAll(option);
     return data;
   }
 }

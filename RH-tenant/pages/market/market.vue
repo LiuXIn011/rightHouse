@@ -1,7 +1,8 @@
 <template>
 	<view class="page-view">
 		<view class="search-view">
-			<u-search shape="round" placeholder="房屋名称/房东名称" :showAction="false" v-model="keyword"></u-search>
+			<u-search shape="round" placeholder="房屋名称/房东名称" :showAction="false" v-model="searchData.keyword"
+				@search="searchList"></u-search>
 		</view>
 		<scroll-view class="house-list" scroll-y="true" @scrolltolower="scrolltolower">
 			<view class="item-shell">
@@ -29,9 +30,9 @@
 				</view>
 				<u-loadmore v-if="houseList.length>0" :status="loadmoreStatus" />
 			</view>
+			<u-empty mode="list" v-if="houseList.length===0">
+			</u-empty>
 		</scroll-view>
-		<u-empty mode="list" v-if="houseList.length===0">
-		</u-empty>
 	</view>
 </template>
 
@@ -39,7 +40,6 @@
 	export default {
 		data() {
 			return {
-				keyword: "",
 				searchData: {
 					keyword: "",
 					index: 1,
@@ -60,6 +60,10 @@
 					this.searchData.index++
 					this.getList()
 				}
+			},
+			searchList() {
+				this.searchData.index = 1
+				this.getList()
 			},
 			getList() {
 				this.$http.request({

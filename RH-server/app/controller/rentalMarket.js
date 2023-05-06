@@ -89,10 +89,16 @@ class RentalMarketController extends Controller {
     let starData = null;
     if (isStar && isStar.status === 1) {
       // 已经star,取消star
-      starData = await ctx.service.rentalMarket.updateStarStatus(isStar.id, 0);
+      starData = await ctx.service.rentalMarket.updateStarStatus({
+        id: isStar.id,
+        status: 0
+      });
     } else if (isStar && isStar.status === 0) {
       // 已经取消star,继续star
-      starData = await ctx.service.rentalMarket.updateStarStatus(isStar.id, 1);
+      starData = await ctx.service.rentalMarket.updateStarStatus({
+        id: isStar.id,
+        status: 1
+      });
     } else {
       // 没有star过，加入star
       starData = await ctx.service.rentalMarket.insertStarHouse(data);
@@ -100,6 +106,30 @@ class RentalMarketController extends Controller {
     ctx.body = {
       status: 1,
       data: isStar || starData
+    };
+  }
+  async tenantStarHouseList() {
+    const { ctx } = this;
+    const token = ctx.header.authorization;
+    const params = {};
+    params.tenantId = ctx.app.jwt.verify(token.slice(7), ctx.app.config.jwt.secret).data.id;
+    const data = await ctx.service.rentalMarket.starHouseListAndCount(params);
+    ctx.body = {
+      status: 1,
+      data: data.rows
+    };
+  }
+  async updateStarStatus() {
+    const { ctx } = this;
+    const rules = {
+      rentalMarketId: 'number',
+      status: 'number'
+    };
+    ctx.validate(rules, ctx.request.body);
+    const data = await ctx.service.rentalMarket.updateStarStatus(ctx.request.body);
+    ctx.body = {
+      status: 1,
+      data
     };
   }
 }
