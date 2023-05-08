@@ -14,7 +14,7 @@
 						</view>
 						<view class="house-price-view">
 							<view class="house-like-count">
-								1收藏
+								{{item.starCount}}收藏
 							</view>
 							<view class="house-price">
 								￥{{item.house.price}}/月
@@ -50,19 +50,18 @@
 			}
 		},
 		onShow() {
-			if (this.searchData.index === 1 && this.houseList.length === 0) {
-				this.getList()
-			}
+			this.getList()
 		},
 		methods: {
 			scrolltolower() {
 				if (this.houseList.length >= (this.searchData.size * this.searchData.index)) {
-					this.searchData.index++
+					this.searchData.size += 10
 					this.getList()
 				}
 			},
 			searchList() {
 				this.searchData.index = 1
+				this.houseList = []
 				this.getList()
 			},
 			getList() {
@@ -84,10 +83,7 @@
 							}
 							return item
 						})
-						if (this.searchData.keyword !== '') {
-							this.houseList = []
-						}
-						this.houseList.push(...dataList)
+						this.houseList = dataList
 						if (this.houseList.length < (this.searchData.size * this.searchData.index)) {
 							this.loadmoreStatus = 'nomore'
 						} else {

@@ -113,8 +113,8 @@
 			},
 			{
 				"pagePath": "pages/market/market",
-				"iconPath": "static/image/tabBar/home.png",
-				"selectedIconPath": "static/image/tabBar/home-on.png",
+				"iconPath": "static/image/tabBar/market.png",
+				"selectedIconPath": "static/image/tabBar/market-on.png",
 				"text": "房市"
 			},
 			{

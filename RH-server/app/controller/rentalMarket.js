@@ -93,15 +93,30 @@ class RentalMarketController extends Controller {
         id: isStar.id,
         status: 0
       });
+      // 减一个热度
+      await ctx.service.rentalMarket.updateStarHotDegree({
+        id: ctx.query.rentalMarketId,
+        hotDegree: -1
+      });
     } else if (isStar && isStar.status === 0) {
       // 已经取消star,继续star
       starData = await ctx.service.rentalMarket.updateStarStatus({
         id: isStar.id,
         status: 1
       });
+      // 加一个热度
+      await ctx.service.rentalMarket.updateStarHotDegree({
+        id: ctx.query.rentalMarketId,
+        hotDegree: 1
+      });
     } else {
       // 没有star过，加入star
       starData = await ctx.service.rentalMarket.insertStarHouse(data);
+      // 加一个热度
+      await ctx.service.rentalMarket.updateStarHotDegree({
+        id: ctx.query.rentalMarketId,
+        hotDegree: 1
+      });
     }
     ctx.body = {
       status: 1,

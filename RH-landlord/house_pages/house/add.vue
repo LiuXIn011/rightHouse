@@ -341,23 +341,23 @@
 			},
 			release() {
 				this.$refs.formRef.validate().then(res => {
-					if (
-						(this.formData.headImg &&
-							Array.isArray(this.formData.headImg) &&
-							this.formData.headImg.length === 0) ||
-						!this.formData.headImg
-					) {
-						uni.showToast({
-							icon: "none",
-							title: "发布到房圈必须上传图片"
-						})
-						return
-					}
 					if (this.formData.rentalMarket) {
 						// 下架
 						this.unreleaseHouse()
 					} else {
 						// 发布
+						if (
+							(this.formData.headImg &&
+								Array.isArray(this.formData.headImg) &&
+								this.formData.headImg.length === 0) ||
+							!this.formData.headImg
+						) {
+							uni.showToast({
+								icon: "none",
+								title: "发布到房市必须上传图片"
+							})
+							return
+						}
 						if (this.formData.id) {
 							// 先编辑再发布
 							this.$http.request({
@@ -393,35 +393,55 @@
 				})
 			},
 			unreleaseHouse() {
-				this.$http.request({
-					url: "/api/rentalMarket/updateStatus",
-					method: "post",
-					data: {
-						id: this.formData.rentalMarket.id,
-						status: 2
-					}
-				}).then(({
-					status,
-					data
-				}) => {
-					if (status === 1) {
-						this.$goBack("已从房圈下架！")
+				uni.showModal({
+					title: "提示",
+					content: "是否从租房市场下架？",
+					success: ({
+						confirm
+					}) => {
+						if (confirm) {
+							this.$http.request({
+								url: "/api/rentalMarket/updateStatus",
+								method: "post",
+								data: {
+									id: this.formData.rentalMarket.id,
+									status: 2
+								}
+							}).then(({
+								status,
+								data
+							}) => {
+								if (status === 1) {
+									this.$goBack("已从房市下架！")
+								}
+							})
+						}
 					}
 				})
 			},
 			releaseHouse(houseId) {
-				this.$http.request({
-					url: "/api/rentalMarket/insert",
-					method: "post",
-					data: {
-						houseId
-					}
-				}).then(({
-					status,
-					data
-				}) => {
-					if (status === 1) {
-						this.$goBack("已成功发布到房圈！")
+				uni.showModal({
+					title: "提示",
+					content: "是否发布到租房市场？",
+					success: ({
+						confirm
+					}) => {
+						if (confirm) {
+							this.$http.request({
+								url: "/api/rentalMarket/insert",
+								method: "post",
+								data: {
+									houseId
+								}
+							}).then(({
+								status,
+								data
+							}) => {
+								if (status === 1) {
+									this.$goBack("已成功发布到房市！")
+								}
+							})
+						}
 					}
 				})
 			},

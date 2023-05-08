@@ -53,31 +53,28 @@ class rentalMarket extends Service {
   async list(params) {
     const Op = this.app.Sequelize.Op;
     const option = {
-      where: {
-        status: 1,
-        [Op.or]: [
-          {
-            '$house.name$': {
-              [Op.like]: params.keyword ? `%${params.keyword}%` : '%'
-            }
-          },
-          {
-            '$landlordUser.name$': {
-              [Op.like]: params.keyword ? `%${params.keyword}%` : '%'
-            }
-          }
+      attributes: {
+        include: [
+          // 计算点赞数量
+          [
+            this.app.Sequelize.literal('(SELECT COUNT(*) FROM rental_market_link_tenant WHERE rental_market_id = rentalMarket.id AND status = 1)'),
+            'starCount'
+          ]
         ]
+      },
+      where: {
+        status: 1
       },
       include: [
         {
           // 房屋信息
-          model: this.ctx.model.House,
-          attributes: [ 'name', 'parentId', 'id', 'headImg', 'price', 'provinceName', 'cityName', 'areaName', 'addresInfo' ]
+          model: this.ctx.model.House
+          // attributes: [ 'name', 'parentId', 'id', 'headImg', 'price', 'provinceName', 'cityName', 'areaName', 'addresInfo' ]
         },
         {
           // 房东信息
           model: this.app.model.LandlordUser,
-          attributes: [ 'name', 'headImg' ]
+          attributes: [ 'name', 'headImg', 'id', 'phone' ]
         }
       ],
       // 排序
@@ -92,6 +89,40 @@ class rentalMarket extends Service {
     } else if (params.status) {
       // 指定状态
       option.where.status = params.status;
+    }
+    // 是否有模糊搜索
+    if (params.keyword) {
+      option.where = {
+        ...option.where,
+        [Op.or]: [
+          {
+            '$house.name$': {
+              [Op.like]: `%${params.keyword}%`
+            }
+          },
+          {
+            '$landlordUser.name$': {
+              [Op.like]: `%${params.keyword}%`
+            }
+          }
+        ]
+      };
+    }
+    if (params.houseName) {
+      option.where = {
+        ...option.where,
+        '$house.name$': {
+          [Op.like]: `%${params.houseName}%`
+        }
+      };
+    }
+    if (params.landlordName) {
+      option.where = {
+        ...option.where,
+        '$landlordUser.name$': {
+          [Op.like]: `%${params.landlordName}%`
+        }
+      };
     }
     // 是否分页
     if (
@@ -140,8 +171,19 @@ class rentalMarket extends Service {
       option.where.rentalMarketId = rentalMarketId;
     }
     const data = await this.ctx.model.RentalMarketLinkTenant.findOne(option);
-    console.log(data);
     data.status = status;
+    data.save();
+    return data;
+  }
+  async updateStarHotDegree({
+    id, hotDegree
+  }) {
+    const data = await this.ctx.model.RentalMarket.findOne({
+      where: {
+        id
+      }
+    });
+    data.hotDegree += hotDegree;
     data.save();
     return data;
   }
@@ -160,8 +202,15 @@ class rentalMarket extends Service {
     rentalMarketId,
     status
   }) {
+    //
     const option = {
-      attributes: [ 'hotDegree', 'houseId', 'status', 'id' ],
+      attributes: [ 'hotDegree', 'houseId', 'status', 'id',
+        // 计算点赞数量
+        [
+          this.app.Sequelize.literal('(SELECT COUNT(*) FROM rental_market_link_tenant WHERE rental_market_id = rentalMarket.id AND status = 1)'),
+          'starCount'
+        ]
+      ],
       include: [
         {
           // 房屋信息

@@ -3,7 +3,13 @@
     <headForm :label-width="100">
       <headFormItem label="房屋名称：">
         <a-input
-          v-model="searchData.name" placeholder="请输入..." allow-clear
+          v-model="searchData.houseName" placeholder="请输入..." allow-clear
+          @change="searchList"
+        />
+      </headFormItem>
+      <headFormItem label="房东名称：">
+        <a-input
+          v-model="searchData.landlordName" placeholder="请输入..." allow-clear
           @change="searchList"
         />
       </headFormItem>
@@ -15,32 +21,26 @@
         >
         </a-select>
       </headFormItem>
-      <headFormItem label="地址：">
-        <a-input
-          v-model="searchData.address" placeholder="请输入..." allow-clear
-          @change="searchList"
-        />
-      </headFormItem>
       <headFormItem type="button" @search="searchList">
       </headFormItem>
     </headForm>
     <a-table
       :columns="tableColumns" :loading="tableLoading" stripe
       show-page-size :pagination="pagination"
-      :data="houseList" row-key="id"
+      :data="marketList" row-key="id"
       @page-size-change="onPageSizeChange"
       @page-change="onPageChange"
     >
+      <template #city="{ record }">
+        {{ `${record.house.provinceName}${record.house.cityName==="直辖市"?'':record.house.cityName}${record.house.areaName}` }}
+      </template>
       <template #status="{ record }">
         <a-tag :color="statusOption.find(item => item.value === record.status)?.color">
           {{ statusOption.find(item => item.value === record.status)?.label || '未知' }}
         </a-tag>
       </template>
-      <template #city="{ record }">
-        {{ `${record.provinceName}${record.cityName==="直辖市"?'':record.cityName}${record.areaName}` }}
-      </template>
       <template #operation="{ record }">
-        <a-button type="primary" size="mini" @click="showInfo(record)">
+        <a-button type="primary" size="mini" @click="showHouseInfo(record.house)">
           详情
         </a-button>
       </template>
@@ -146,35 +146,52 @@
     </a-modal>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue';
 import useStore from '@/stores/index';
 import { storeToRefs } from 'pinia'
 import {
-  getHouseList
-} from '@/api/house';
+  getRentalMarketList
+} from '@/api/house'
+
 const store = storeToRefs(useStore())
 
 const tableColumns: object[] = reactive([
   {
-    title: '名称',
-    dataIndex: 'name',
+    title: '房屋名称',
+    dataIndex: 'house.name',
   },
   {
-    title: '省市区',
+    title: '房屋详情',
     align: 'center',
-    slotName: 'city',
+    slotName: 'operation',
   },
   {
-    title: '详细地址',
+    title: '热度',
+    dataIndex: 'hotDegree',
     align: 'center',
-    dataIndex: 'addresInfo',
   },
   {
-    title: '状态',
+    title: '收藏人数',
+    dataIndex: 'starCount',
+    align: 'center',
+  },
+
+  {
+    title: '发布状态',
     align: 'center',
     slotName: 'status',
     dataIndex: 'status'
+  },
+  {
+    title: '房东',
+    align: 'center',
+    dataIndex: 'landlordUser.name',
+  },
+  {
+    title: '房东电话',
+    align: 'center',
+    dataIndex: 'landlordUser.phone',
   },
   {
     title: '创建时间',
@@ -186,13 +203,8 @@ const tableColumns: object[] = reactive([
     align: 'center',
     dataIndex: 'updatedAt'
   },
-  {
-    title: '操作',
-    align: 'center',
-    slotName: 'operation',
-  },
-]);
 
+])
 const pagination = reactive({
   total: 0,
   pageSize: 10,
@@ -203,6 +215,15 @@ const pagination = reactive({
   simple: store.isMobile,
   current: 1,
 });
+
+const searchData = reactive({
+  houseName: '',
+  landlordName: '',
+  status: '',
+  size: pagination.pageSize,
+  index: pagination.current
+})
+
 const statusOption = reactive([
   {
     label: '全部',
@@ -210,58 +231,48 @@ const statusOption = reactive([
     color: ''
   },
   {
-    label: '待租',
+    label: '发布',
     value: 1,
-    color: 'red'
+    color: 'green'
   },
   {
-    label: '已租',
-    value: 2,
-    color: 'green'
-  }
+    label: '下架',
+    value: 0,
+    color: 'red'
+  },
 ])
-const searchData = reactive({
-  name: '',
-  address: '',
-  status: '',
-  size: pagination.pageSize,
-  index: pagination.current
-})
-let houseList = reactive([])
+
+let marketList = reactive([])
 const tableLoading = ref(false);
-const getHouseListFun = () => {
+const getList = () => {
   tableLoading.value = true;
-  getHouseList(searchData)
+  getRentalMarketList(searchData)
     .then(({ status, data, count }) => {
       if (status === 1) {
         pagination.total = count || 0;
-        houseList = (data || [])
+        marketList = (data || [])
       }
     })
     .finally(() => {
       tableLoading.value = false;
     });
-};
-getHouseListFun()
+}
+getList()
+
 const onPageChange = (index: number) => {
   pagination.current = index;
   searchData.index = index;
-  getHouseListFun();
+  getList();
 };
 const onPageSizeChange = (size: number) => {
   pagination.pageSize = size;
   searchData.size = size;
-  getHouseListFun();
+  getList();
 };
-const searchList = () => {
-  pagination.current = 1;
-  searchData.index = 1;
-  getHouseListFun();
-}
 
 let showInfoModel = ref(false)
 let showData:any = reactive({})
-const showInfo = (data:any) => {
+const showHouseInfo = (data:any) => {
   showData.name = data.name
   showData.info = [
     {
@@ -330,13 +341,8 @@ const showInfo = (data:any) => {
   showInfoModel.value = true
 }
 
-</script>
-<style scoped lang="scss">
-.list-title{
-  color: var(--color-text-1);
-  margin-bottom: 6px;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5715;
+const searchList = () => {
+  getList()
 }
-</style>
+
+</script>

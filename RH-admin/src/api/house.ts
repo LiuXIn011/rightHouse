@@ -5,3 +5,8 @@ export const getHouseList = (params: any) => axios({
   method: 'get',
   params
 })
+export const getRentalMarketList = (params: any) => axios({
+  url: '/api/rentalMarket/list',
+  method: 'get',
+  params
+})
