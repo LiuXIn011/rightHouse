@@ -82,10 +82,6 @@ module.exports = app => {
       foreignKey: 'id',
       otherKey: 'houseId'
     });
-    // 与房市的关联关系声明
-    // Model.hasOne(app.model.RentalMarket, {
-    //   foreignKey: 'id'
-    // });
   };
 
   return Model;

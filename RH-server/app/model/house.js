@@ -200,35 +200,18 @@ module.exports = app => {
 
   Model.associate = function() {
     // 与房东的关联关系声明
-    Model.hasOne(app.model.LandlordUser, {
-      foreignKey: 'id',
-      otherKey: 'userId'
+    Model.belongsTo(app.model.LandlordUser, {
+      foreignKey: 'userId'
     });
-    app.model.LandlordUser.hasMany(Model, {
-      foreignKey: 'id',
-      otherKey: 'userId'
-    });
-
     // 与维修表的关系声明
     Model.hasMany(app.model.HouseMaintenance, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
+      foreignKey: 'houseId'
     });
-    app.model.HouseMaintenance.belongsTo(Model, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
-    });
-
     // 与评论表的关系
     Model.hasMany(app.model.Comments, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
+      foreignKey: 'houseId'
     });
-    app.model.Comments.belongsTo(Model, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
-    });
-
+    // 与房市记录的关系
     Model.hasOne(app.model.RentalMarket, {
       foreignKey: 'houseId'
     });
