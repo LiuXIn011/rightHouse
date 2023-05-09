@@ -62,17 +62,17 @@ module.exports = app => {
   Model.associate = function() {
     // 与房子的关联关系声明
     Model.belongsTo(app.model.House, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
+      foreignKey: 'houseId'
     });
     // 与房东的关联关系声明
-    app.model.LandlordUser.hasMany(Model, {
-      foreignKey: 'userId',
-      otherKey: 'id'
-    });
+    // app.model.LandlordUser.hasMany(Model, {
+    //   foreignKey: 'userId'
+    // });
     Model.belongsTo(app.model.LandlordUser, {
-      foreignKey: 'userId',
-      otherKey: 'id'
+      foreignKey: 'userId'
+    });
+    Model.hasOne(app.model.LeaseApplication, {
+      foreignKey: 'rentalMarketId'
     });
   };
 

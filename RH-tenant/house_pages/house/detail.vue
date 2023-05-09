@@ -76,6 +76,9 @@
 					<text v-if="houseInfo.balcony===0">无</text>
 				</u-form-item>
 			</u--form>
+			<u-button v-if="!leaseApplication" color="#FFA92F" @click="leaseHouse" :loading="btnloading" shape="circle"
+				text="租赁"></u-button>
+			<u-divider v-else text="已向房东发送租赁请求"></u-divider>
 		</view>
 	</view>
 </template>
@@ -89,6 +92,8 @@
 					headImg: []
 				},
 				landlordInfo: {},
+				leaseApplication: null,
+				btnloading: false
 			}
 		},
 		onLoad(data) {
@@ -115,6 +120,7 @@
 						}
 						this.houseInfo = data.house
 						this.landlordInfo = data.landlordUser
+						this.leaseApplication = data.leaseApplication
 					}
 				})
 			},
@@ -158,6 +164,39 @@
 				}) => {
 					if (status === 1) {
 						this.getDetail()
+					}
+				})
+			},
+			leaseHouse() {
+				uni.showModal({
+					title: '提示',
+					content: "您的信息将提供给房东，是否继续？",
+					success: ({
+						confirm
+					}) => {
+						if (confirm) {
+							this.$http.request({
+								url: "/api/leaseApplication/insert",
+								method: "post",
+								data: {
+									houseId: this.houseInfo.id,
+									landlordId: this.landlordInfo.id,
+									rentalMarketId: Number(this.id)
+								}
+							}).then(({
+								status
+							}) => {
+								if (status === 1) {
+									uni.showToast({
+										icon: 'none',
+										title: "申请发送成功，等待处理。"
+									})
+									setTimeout(() => {
+										this.getDetail()
+									}, 1500)
+								}
+							})
+						}
 					}
 				})
 			},
@@ -234,6 +273,10 @@
 				bottom: 0;
 				margin: auto 0;
 			}
+		}
+
+		::v-deep .u-button {
+			margin-top: 40rpx;
 		}
 	}
 </style>

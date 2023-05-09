@@ -17,7 +17,7 @@
 								{{item.starCount}}收藏
 							</view>
 							<view class="house-price">
-								￥{{item.house.price}}/月
+								￥{{item.house.fakePrice || item.house.price}}/月
 							</view>
 						</view>
 						<view class="house-landlord">

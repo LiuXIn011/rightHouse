@@ -8,6 +8,7 @@ const adminUser = require('./routerModules/adminUser');
 const houseMaintenance = require('./routerModules/houseMaintenance');
 const comments = require('./routerModules/comments');
 const rentalMarket = require('./routerModules/rentalMarket');
+const leaseApplication = require('./routerModules/leaseApplication');
 
 /**
  * @param {Egg.Application} app - egg application
@@ -26,4 +27,5 @@ module.exports = async app => {
   houseMaintenance(app);
   comments(app);
   rentalMarket(app);
+  leaseApplication(app);
 };

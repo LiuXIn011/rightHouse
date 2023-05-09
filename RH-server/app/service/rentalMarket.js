@@ -5,6 +5,7 @@ class rentalMarket extends Service {
     return rentalMarket;
   }
   async selectById(id) {
+    const Op = this.app.Sequelize.Op;
     const rentalMarket = await this.ctx.model.RentalMarket.findOne({
       include: [
         {
@@ -27,7 +28,17 @@ class rentalMarket extends Service {
         {
           // 房东信息
           model: this.app.model.LandlordUser,
-          attributes: [ 'name', 'headImg', 'phone' ]
+          attributes: [ 'id', 'name', 'headImg', 'phone' ]
+        },
+        {
+          // 申请租赁信息
+          model: this.app.model.LeaseApplication,
+          where: {
+            status: {
+              [Op.ne]: 3
+            }
+          },
+          attributes: [ 'id' ]
         }
       ],
       where: {

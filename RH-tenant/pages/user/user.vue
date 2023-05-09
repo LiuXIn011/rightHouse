@@ -6,7 +6,7 @@
 			<s-image class="user-avatar" mode="aspectFill" :src="userInfo.headImg||avatarUrl"></s-image>
 			<view class="user-name" v-if="isLogin">{{userInfo.name}}</view>
 			<view class="user-name" @click="toLogin" v-if="!isLogin">点击登录</view>
-			<view class="user-signature" v-show="userInfo.remark">
+			<view class="user-signature" v-show="userInfo.remark && isLogin">
 				{{userInfo.remark || ''}}
 			</view>
 

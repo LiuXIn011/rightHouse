@@ -228,6 +228,10 @@ module.exports = app => {
       foreignKey: 'houseId',
       otherKey: 'id'
     });
+
+    Model.hasOne(app.model.RentalMarket, {
+      foreignKey: 'houseId'
+    });
   };
 
   return Model;
