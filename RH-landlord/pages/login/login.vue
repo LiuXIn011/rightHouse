@@ -66,7 +66,18 @@
 					if (res.status === 1) {
 						this.setLogin(true)
 						this.setUserInfo(res.data)
+						// 有报修给红点
 						if (res.data.maintenanceLength && res.data.maintenanceLength > 0) {
+							uni.showTabBarRedDot({
+								index: 1,
+							})
+						} else {
+							uni.hideTabBarRedDot({
+								index: 1,
+							})
+						}
+						// 有租赁申请给红点
+						if (res.data.leaseApplicationLength && res.data.leaseApplicationLength > 0) {
 							uni.showTabBarRedDot({
 								index: 1,
 							})

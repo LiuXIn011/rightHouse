@@ -68,19 +68,16 @@ module.exports = app => {
 
   Model.associate = function() {
     // 与房东的关联关系声明
-    Model.hasOne(app.model.LandlordUser, {
-      foreignKey: 'id',
-      otherKey: 'userId'
+    Model.belongsTo(app.model.LandlordUser, {
+      foreignKey: 'landlordId'
     });
     // 与租客的关联关系声明
-    Model.hasOne(app.model.TenantsUser, {
-      foreignKey: 'id',
-      otherKey: 'tenantId'
+    Model.belongsTo(app.model.TenantsUser, {
+      foreignKey: 'tenantId'
     });
     // 与房屋的关联关系声明
-    Model.hasOne(app.model.House, {
-      foreignKey: 'id',
-      otherKey: 'houseId'
+    Model.belongsTo(app.model.House, {
+      foreignKey: 'houseId'
     });
   };
 

@@ -44,6 +44,15 @@
 						"navigationBarTextStyle": "white", //导航栏标题颜色
 						"enablePullDownRefresh": true
 					}
+				},
+				{
+					"path": "house/leaseApplication",
+					"style": {
+						"navigationBarTitleText": "租赁申请列表",
+						"navigationBarBackgroundColor": "#2979ff", //导航栏背景颜色
+						"navigationBarTextStyle": "white", //导航栏标题颜色
+						"enablePullDownRefresh": true
+					}
 				}
 			]
 		},

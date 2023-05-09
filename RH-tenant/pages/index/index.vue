@@ -32,9 +32,8 @@
 				<u-button type="primary" text="房间报修" @click="toMaintenance"></u-button>
 			</view>
 		</view>
-		<u-action-sheet :actions="houseList" @select="chooseHouseActionSave" title="所有租房"
-			:show="chooseHouseActionSheetShow" @close="chooseHouseActionSheetShow=false" safeAreaInsetBottom round="25"
-			cancelText="取消"></u-action-sheet>
+		<u-action-sheet :actions="houseList" @select="chooseHouseActionSave" title="所有租房" :show="chooseHouseActionSheetShow"
+			@close="chooseHouseActionSheetShow=false" :safeAreaInsetBottom="false" round="25"></u-action-sheet>
 		<u-loading-page color="#FFA92F" loading-color="#FFA92F" :icon-size="loadingSize" :image="loadingImg"
 			:loading-text="loadingText" loading-mode="circle" :loading="pageLoading"></u-loading-page>
 	</view>

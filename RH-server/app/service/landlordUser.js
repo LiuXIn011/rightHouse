@@ -109,7 +109,6 @@ class UserService extends Service {
       include: [
         {
           model: this.ctx.model.House,
-          // attributes: [ 'name', 'id', 'headImg', 'price', 'provinceName', 'cityName', 'areaName', 'addresInfo' ],
           where: {
             userId: id
           }
@@ -120,6 +119,14 @@ class UserService extends Service {
       }
     });
     landlordUser.dataValues.maintenanceLength = maintenanceLength;
+    // 用户申请租赁数量
+    const leaseApplicationLength = await this.ctx.model.LeaseApplication.count({
+      where: {
+        status: 0,
+        landlordId: id
+      }
+    });
+    landlordUser.dataValues.leaseApplicationLength = leaseApplicationLength;
     return landlordUser;
   }
   async selectByPhone(phone) {

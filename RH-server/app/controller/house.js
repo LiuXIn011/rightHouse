@@ -186,19 +186,30 @@ class HouseController extends Controller {
       houseId
     });
     if (flag) {
-      // 查询房东信息
-      const houseLandlordInfo = await ctx.service.landlordUser.selectById(landlordId);
+      // 验证短信配置
       if (
+        this.config.sms &&
+        this.config.sms.client &&
+        this.config.sms.client.accessKeyId &&
+        this.config.sms.client.secretAccessKey &&
         this.config.houseJoinTenantMessage &&
-        houseLandlordInfo &&
-        houseLandlordInfo.phone
+        this.config.houseJoinTenantMessage.SignName &&
+        this.config.houseJoinTenantMessage.TemplateCode
       ) {
-        // 发送短信
-        ctx.sms.sendSMS({
-          PhoneNumbers: houseLandlordInfo.phone,
-          SignName: this.config.houseJoinTenantMessage.SignName,
-          TemplateCode: this.config.houseJoinTenantMessage.TemplateCode
-        });
+        // 查询房东信息
+        const houseLandlordInfo = await ctx.service.landlordUser.selectById(landlordId);
+        if (
+          houseLandlordInfo &&
+          houseLandlordInfo.phone
+        ) {
+          // 发送短信
+          ctx.sms.sendSMS({
+            PhoneNumbers: houseLandlordInfo.phone,
+            SignName: this.config.houseJoinTenantMessage.SignName,
+            TemplateCode: this.config.houseJoinTenantMessage.TemplateCode
+          });
+        }
+
       }
       ctx.body = {
         status: 1,
@@ -256,19 +267,29 @@ class HouseController extends Controller {
     data.tenantId = ctx.app.jwt.verify(token.slice(7), ctx.app.config.jwt.secret).data.id;
     const addFlag = await ctx.service.house.maintenance(data);
     if (addFlag) {
-      // 查询房东信息
-      const houseLandlordInfo = await ctx.service.landlordUser.selectByHouseId(data.houseId);
+      // 验证短信配置
       if (
-        this.this.config.houseMaintenanceMessage &&
-        houseLandlordInfo &&
-        houseLandlordInfo.phone
+        this.config.sms &&
+        this.config.sms.client &&
+        this.config.sms.client.accessKeyId &&
+        this.config.sms.client.secretAccessKey &&
+        this.config.houseMaintenanceMessage &&
+        this.config.houseMaintenanceMessage.SignName &&
+        this.config.houseMaintenanceMessage.TemplateCode
       ) {
-        // 发送短信
-        ctx.sms.sendSMS({
-          PhoneNumbers: houseLandlordInfo.phone,
-          SignName: this.config.houseMaintenanceMessage.SignName,
-          TemplateCode: this.config.houseMaintenanceMessage.TemplateCode
-        });
+        // 查询房东信息
+        const houseLandlordInfo = await ctx.service.landlordUser.selectByHouseId(data.houseId);
+        if (
+          houseLandlordInfo &&
+          houseLandlordInfo.phone
+        ) {
+          // 发送短信
+          ctx.sms.sendSMS({
+            PhoneNumbers: houseLandlordInfo.phone,
+            SignName: this.config.houseMaintenanceMessage.SignName,
+            TemplateCode: this.config.houseMaintenanceMessage.TemplateCode
+          });
+        }
       }
 
       ctx.body = {
@@ -287,19 +308,29 @@ class HouseController extends Controller {
     const data = ctx.query;
     const solveFlag = await ctx.service.house.solveMaintenance(data);
     if (solveFlag) {
-      // 查询报修人信息
-      const tenantsUserInfo = await ctx.service.tenantsUser.selectByMaintenanceId(data.id);
       if (
+        this.config.sms &&
+        this.config.sms.client &&
+        this.config.sms.client.accessKeyId &&
+        this.config.sms.client.secretAccessKey &&
         this.config.houseSolveMaintenanceMessage &&
-        tenantsUserInfo &&
-        tenantsUserInfo.phone
+        this.config.houseSolveMaintenanceMessage.SignName &&
+        this.config.houseSolveMaintenanceMessage.TemplateCode
       ) {
-        // 发送短信
-        ctx.sms.sendSMS({
-          PhoneNumbers: tenantsUserInfo.phone,
-          SignName: this.config.houseSolveMaintenanceMessage.SignName,
-          TemplateCode: this.config.houseSolveMaintenanceMessage.TemplateCode
-        });
+        // 查询报修人信息
+        const tenantsUserInfo = await ctx.service.tenantsUser.selectByMaintenanceId(data.id);
+        if (
+          tenantsUserInfo &&
+        tenantsUserInfo.phone
+        ) {
+          // 发送短信
+          ctx.sms.sendSMS({
+            PhoneNumbers: tenantsUserInfo.phone,
+            SignName: this.config.houseSolveMaintenanceMessage.SignName,
+            TemplateCode: this.config.houseSolveMaintenanceMessage.TemplateCode
+          });
+        }
+
       }
       ctx.body = {
         status: 1,
@@ -328,33 +359,55 @@ class HouseController extends Controller {
     }
     const flag = await ctx.service.house.houseOut(data);
     if (flag) {
-      // 查询房东信息
-      const landlordUserInfo = await ctx.service.landlordUser.selectById(data.landlordId);
+
       if (
+        this.config.sms &&
+        this.config.sms.client &&
+        this.config.sms.client.accessKeyId &&
+        this.config.sms.client.secretAccessKey &&
         this.config.houseOutLandlordMessage &&
-        landlordUserInfo &&
-        landlordUserInfo.phone
+        this.config.houseOutLandlordMessage.SignName &&
+        this.config.houseOutLandlordMessage.TemplateCode
       ) {
+        // 查询房东信息
+        const landlordUserInfo = await ctx.service.landlordUser.selectById(data.landlordId);
+        if (
+          landlordUserInfo &&
+          landlordUserInfo.phone
+        ) {
         // 发送短信
-        ctx.sms.sendSMS({
-          PhoneNumbers: landlordUserInfo.phone,
-          SignName: this.config.houseOutLandlordMessage.SignName,
-          TemplateCode: this.config.houseOutLandlordMessage.TemplateCode
-        });
+          ctx.sms.sendSMS({
+            PhoneNumbers: landlordUserInfo.phone,
+            SignName: this.config.houseOutLandlordMessage.SignName,
+            TemplateCode: this.config.houseOutLandlordMessage.TemplateCode
+          });
+        }
+
       }
-      // 查询租客信息
-      const tenantUserInfo = await ctx.service.tenantsUser.selectById(data.tenantId);
+
       if (
+        this.config.sms &&
+        this.config.sms.client &&
+        this.config.sms.client.accessKeyId &&
+        this.config.sms.client.secretAccessKey &&
         this.config.houseOutTenantMessage &&
-        tenantUserInfo &&
-        tenantUserInfo.phone
+        this.config.houseOutTenantMessage.SignName &&
+        this.config.houseOutTenantMessage.TemplateCode
       ) {
-        // 发送短信
-        ctx.sms.sendSMS({
-          PhoneNumbers: tenantUserInfo.phone,
-          SignName: this.config.houseOutTenantMessage.SignName,
-          TemplateCode: this.config.houseOutTenantMessage.TemplateCode
-        });
+        // 查询租客信息
+        const tenantUserInfo = await ctx.service.tenantsUser.selectById(data.tenantId);
+        if (
+          tenantUserInfo &&
+          tenantUserInfo.phone
+        ) {
+          // 发送短信
+          ctx.sms.sendSMS({
+            PhoneNumbers: tenantUserInfo.phone,
+            SignName: this.config.houseOutTenantMessage.SignName,
+            TemplateCode: this.config.houseOutTenantMessage.TemplateCode
+          });
+        }
+
       }
       ctx.body = {
         status: 1,

@@ -64,9 +64,11 @@ module.exports = app => {
     Model.belongsTo(app.model.House, {
       foreignKey: 'houseId'
     });
+    // 与房东的关联关系声明
     Model.belongsTo(app.model.LandlordUser, {
       foreignKey: 'userId'
     });
+    // 与租赁申请关系声明
     Model.hasOne(app.model.LeaseApplication, {
       foreignKey: 'rentalMarketId'
     });

@@ -11,6 +11,7 @@ class rentalMarket extends Service {
         {
           // 房屋信息
           model: this.ctx.model.House,
+          required: true,
           attributes: [
             'name', 'parentId',
             'id', 'headImg',
@@ -28,6 +29,7 @@ class rentalMarket extends Service {
         {
           // 房东信息
           model: this.app.model.LandlordUser,
+          required: true,
           attributes: [ 'id', 'name', 'headImg', 'phone' ]
         },
         {
@@ -35,9 +37,10 @@ class rentalMarket extends Service {
           model: this.app.model.LeaseApplication,
           where: {
             status: {
-              [Op.ne]: 3
+              [Op.ne]: 2
             }
           },
+          required: false,
           attributes: [ 'id' ]
         }
       ],
@@ -79,12 +82,14 @@ class rentalMarket extends Service {
       include: [
         {
           // 房屋信息
-          model: this.ctx.model.House
+          model: this.ctx.model.House,
+          required: true
           // attributes: [ 'name', 'parentId', 'id', 'headImg', 'price', 'provinceName', 'cityName', 'areaName', 'addresInfo' ]
         },
         {
           // 房东信息
           model: this.app.model.LandlordUser,
+          required: true,
           attributes: [ 'name', 'headImg', 'id', 'phone' ]
         }
       ],
