@@ -9,4 +9,5 @@ module.exports = app => {
   router.get('/api/rentalMarket/starHouse', jwt, controller.rentalMarket.starHouse);
   router.get('/api/rentalMarket/tenantStarHouseList', jwt, controller.rentalMarket.tenantStarHouseList);
   router.post('/api/rentalMarket/updateStarStatus', jwt, controller.rentalMarket.updateStarStatus);
+  router.get('/api/rentalMarket/selectByLandlordId', jwt, controller.rentalMarket.selectByLandlordId);
 };

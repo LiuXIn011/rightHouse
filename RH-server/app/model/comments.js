@@ -104,7 +104,7 @@ module.exports = app => {
       foreignKey: 'landlordId'
     });
     // 与租客的关系
-    Model.belongsTo(app.model.LandlordUser, {
+    Model.belongsTo(app.model.TenantsUser, {
       foreignKey: 'tenantId'
     });
   };

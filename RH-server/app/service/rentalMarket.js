@@ -4,7 +4,7 @@ class rentalMarket extends Service {
     const rentalMarket = await this.ctx.model.RentalMarket.create(data);
     return rentalMarket;
   }
-  async selectById(id) {
+  async selectById(id, tenantId) {
     const Op = this.app.Sequelize.Op;
     const rentalMarket = await this.ctx.model.RentalMarket.findOne({
       include: [
@@ -38,15 +38,46 @@ class rentalMarket extends Service {
           where: {
             status: {
               [Op.ne]: 2
-            }
+            },
+            tenantId
           },
-          required: false,
-          attributes: [ 'id' ]
+          required: false
         }
       ],
       where: {
         id
       }
+    });
+    return rentalMarket;
+  }
+  async selectByLandlordId({
+    landlordId
+  }) {
+    const rentalMarket = await this.ctx.model.RentalMarket.findAll({
+      where: {
+        userId: landlordId,
+        status: 1
+      },
+      include: [
+        {
+          // 房屋信息
+          model: this.ctx.model.House,
+          required: true,
+          attributes: [
+            'name', 'parentId',
+            'id', 'headImg',
+            'price', 'provinceName',
+            'cityName', 'areaName',
+            'addresInfo', 'depositNumber',
+            'priceNumber', 'waterFee',
+            'electricityFee', 'internetFee',
+            'fuelFee', 'area',
+            'floor', 'toward',
+            'toilet', 'kitchen',
+            'balcony'
+          ]
+        }
+      ]
     });
     return rentalMarket;
   }

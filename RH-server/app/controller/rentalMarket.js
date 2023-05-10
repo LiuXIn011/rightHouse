@@ -56,11 +56,23 @@ class RentalMarketController extends Controller {
       count: list.count
     };
   }
+  async selectByLandlordId() {
+    const { ctx } = this;
+    const rules = {
+      landlordId: 'int'
+    };
+    ctx.validate(rules, ctx.query);
+    const list = await ctx.service.rentalMarket.selectByLandlordId(ctx.query);
+    ctx.body = {
+      status: 1,
+      data: list
+    };
+  }
   async selectById() {
     const { ctx } = this;
-    const rentalMarketInfo = await ctx.service.rentalMarket.selectById(ctx.query.id);
     const token = ctx.header.authorization;
     const tenantId = ctx.app.jwt.verify(token.slice(7), ctx.app.config.jwt.secret).data.id;
+    const rentalMarketInfo = await ctx.service.rentalMarket.selectById(ctx.query.id, tenantId);
     const isStar = await ctx.service.rentalMarket.checkHouseStar({
       rentalMarketId: ctx.query.id,
       tenantId,

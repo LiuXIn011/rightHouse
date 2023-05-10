@@ -202,7 +202,7 @@ class HouseController extends Controller {
           houseLandlordInfo &&
           houseLandlordInfo.phone
         ) {
-          // 发送短信
+          // 发送租客入住短信
           ctx.sms.sendSMS({
             PhoneNumbers: houseLandlordInfo.phone,
             SignName: this.config.houseJoinTenantMessage.SignName,
@@ -283,7 +283,7 @@ class HouseController extends Controller {
           houseLandlordInfo &&
           houseLandlordInfo.phone
         ) {
-          // 发送短信
+          // 发送报修短信通知
           ctx.sms.sendSMS({
             PhoneNumbers: houseLandlordInfo.phone,
             SignName: this.config.houseMaintenanceMessage.SignName,
@@ -321,9 +321,9 @@ class HouseController extends Controller {
         const tenantsUserInfo = await ctx.service.tenantsUser.selectByMaintenanceId(data.id);
         if (
           tenantsUserInfo &&
-        tenantsUserInfo.phone
+          tenantsUserInfo.phone
         ) {
-          // 发送短信
+          // 发送完成报修短信
           ctx.sms.sendSMS({
             PhoneNumbers: tenantsUserInfo.phone,
             SignName: this.config.houseSolveMaintenanceMessage.SignName,
@@ -359,7 +359,6 @@ class HouseController extends Controller {
     }
     const flag = await ctx.service.house.houseOut(data);
     if (flag) {
-
       if (
         this.config.sms &&
         this.config.sms.client &&
@@ -375,7 +374,7 @@ class HouseController extends Controller {
           landlordUserInfo &&
           landlordUserInfo.phone
         ) {
-        // 发送短信
+        // 发送退租短信
           ctx.sms.sendSMS({
             PhoneNumbers: landlordUserInfo.phone,
             SignName: this.config.houseOutLandlordMessage.SignName,
@@ -400,7 +399,7 @@ class HouseController extends Controller {
           tenantUserInfo &&
           tenantUserInfo.phone
         ) {
-          // 发送短信
+          // 发送退租短信
           ctx.sms.sendSMS({
             PhoneNumbers: tenantUserInfo.phone,
             SignName: this.config.houseOutTenantMessage.SignName,
