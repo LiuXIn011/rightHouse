@@ -63,6 +63,21 @@ module.exports = appInfo => {
     houseOutLandlordMessage: {
       SignName: '',
       TemplateCode: ''
+    },
+    // 租客申请租赁的阿里云短信通知
+    tenantLeaseApplicationMessage: {
+      SignName: '',
+      TemplateCode: ''
+    },
+    // 房东通过租赁的阿里云短信通知
+    passLeaseApplicationMessage: {
+      SignName: '',
+      TemplateCode: ''
+    },
+    // 房东驳回租客租赁的阿里云短信通知
+    nopassLeaseApplicationMessage: {
+      SignName: '',
+      TemplateCode: ''
     }
   };
   // 数据库配置
