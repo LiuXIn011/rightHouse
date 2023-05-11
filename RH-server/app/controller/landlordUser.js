@@ -244,6 +244,25 @@ class UserController extends Controller {
     };
 
   }
+  async getRentalMarketAndCommentsByLandlordId() {
+    const { ctx } = this;
+    const rules = {
+      landlordId: 'id'
+    };
+    ctx.validate(rules, ctx.query);
+    const rentalMarketList = await this.ctx.service.landlordUser.getRentalMarketAndCommentsByLandlordId(this.ctx.query.landlordId);
+    if (rentalMarketList) {
+      this.ctx.body = {
+        status: 1,
+        data: rentalMarketList
+      };
+    } else {
+      this.ctx.body = {
+        status: -1,
+        message: '查询出错'
+      };
+    }
+  }
 }
 
 module.exports = UserController;

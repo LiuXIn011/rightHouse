@@ -182,5 +182,62 @@ class UserService extends Service {
       }
     });
   }
+  async getRentalMarketAndCommentsByLandlordId(id) {
+    return await this.ctx.model.LandlordUser.findOne({
+      where: {
+        id
+      },
+      attributes: { exclude: [ 'openId', 'sessionKey', 'sourceType', 'unionId' ] },
+      include: [
+        // 房市信息
+        {
+          model: this.ctx.model.RentalMarket,
+          required: false,
+          attributes: [ 'hotDegree', 'houseId', 'status', 'id',
+          // 计算点赞数量
+            [
+              this.app.Sequelize.literal('(SELECT COUNT(*) FROM rental_market_link_tenant WHERE rental_market_id = rentalMarkets.id AND status = 1)'),
+              'starCount'
+            ]
+          ],
+          where: {
+            status: 1
+          },
+          // 排序
+          order: [
+            [ 'hotDegree', 'DESC' ]
+          ],
+          include: [
+            {
+              // 房屋信息
+              model: this.ctx.model.House,
+              required: true
+            }
+          ]
+        },
+        // 评论信息
+        {
+          model: this.ctx.model.Comments,
+          required: false,
+          attributes: [ 'landlordComment', 'landlordCommentImg', 'landlordScore' ],
+          where: {
+            status: 1
+          },
+          include: [
+            {
+              // 租客
+              model: this.ctx.model.TenantsUser,
+              required: true,
+              attributes: [ 'name', 'id', 'headImg' ]
+            }
+          ],
+          // 排序
+          order: [
+            [ 'landlordScore', 'DESC' ]
+          ]
+        }
+      ]
+    });
+  }
 }
 module.exports = UserService;

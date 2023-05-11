@@ -30,6 +30,15 @@
 		}
 	],
 	"subpackages": [{
+		"root":"landlord_pages",
+		"pages":[{
+			"path": "detail/detail",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}]
+	},{
 		"root": "house_pages",
 		"pages": [{
 				"path": "house/join",

@@ -1,13 +1,13 @@
 <template>
 	<view class="page-view">
-		<u-navbar title=" " bgColor="transparent" :autoBack="true">
+		<u-navbar leftIconColor="#fff" title=" " bgColor="transparent" :autoBack="true">
 		</u-navbar>
 		<u-swiper @click="swiperClick" v-if="houseInfo.headImg.length>0" :list="houseInfo.headImg" :height="300" indicator
 			indicatorMode="line" circular autoplay></u-swiper>
 		<view class="house-info">
 			<view class="house-name">{{houseInfo.name || ''}}</view>
 			<view class="landlord-bar">
-				<view class="landlord-info">
+				<view class="landlord-info" @click="toLandlordDetail(landlordInfo)">
 					<image class="landlord-head-img" :src="landlordInfo.headImg" mode="aspectFill"></image>
 					<view class="landlord-name">
 						{{landlordInfo.name}}
@@ -200,6 +200,13 @@
 					}
 				})
 			},
+			toLandlordDetail({
+				id
+			}) {
+				uni.navigateTo({
+					url: "/landlord_pages/detail/detail?id=" + id,
+				})
+			}
 		}
 	}
 </script>

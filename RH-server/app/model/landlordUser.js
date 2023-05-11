@@ -99,6 +99,10 @@ module.exports = app => {
     Model.hasMany(app.model.Comments, {
       foreignKey: 'landlordId'
     });
+    // 与房市的关系
+    Model.hasMany(app.model.RentalMarket, {
+      foreignKey: 'userId'
+    });
   };
 
   return Model;

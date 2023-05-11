@@ -147,9 +147,13 @@
 
 			},
 			toPath(url) {
-				uni.navigateTo({
-					url
-				})
+				if (this.isLogin) {
+					uni.navigateTo({
+						url
+					})
+				} else {
+					this.toLogin()
+				}
 			},
 			headImgAfterRead(event) {
 				let fileList = event.file

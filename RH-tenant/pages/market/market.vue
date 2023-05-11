@@ -6,13 +6,14 @@
 		</view>
 		<scroll-view class="house-list" scroll-y="true" @scrolltolower="scrolltolower">
 			<view class="item-shell">
-				<view class="house-item" v-for="(item,index) in houseList" :key="item.id" @click="toDetail(item)">
-					<image class="house-item-first-img" :src="item.firstImg" mode="aspectFill"></image>
+				<view class="house-item" v-for="(item,index) in houseList" :key="item.id">
+					<image @click="toHouseDetail(item)" class="house-item-first-img" :src="item.firstImg" mode="aspectFill">
+					</image>
 					<view class="house-item-info">
-						<view class="house-name">
+						<view class="house-name" @click="toHouseDetail(item)">
 							{{item.house.name}}
 						</view>
-						<view class="house-price-view">
+						<view class="house-price-view" @click="toHouseDetail(item)">
 							<view class="house-like-count">
 								{{item.starCount}}收藏
 							</view>
@@ -20,7 +21,7 @@
 								￥{{item.house.fakePrice || item.house.price}}/月
 							</view>
 						</view>
-						<view class="house-landlord">
+						<view class="house-landlord" @click="toLandlordDetail(item)">
 							<image class="house-landlord-head" :src="item.landlordUser.headImg" mode="aspectFill"></image>
 							<view class="house-landlord-name">
 								{{item.landlordUser.name}}
@@ -30,7 +31,7 @@
 				</view>
 				<u-loadmore v-if="houseList.length>0" :status="loadmoreStatus" />
 			</view>
-			<u-empty mode="list" v-if="houseList.length===0">
+			<u-empty text="暂无出租" mode="list" v-if="houseList.length===0">
 			</u-empty>
 		</scroll-view>
 	</view>
@@ -92,11 +93,18 @@
 					}
 				})
 			},
-			toDetail({
+			toHouseDetail({
 				id
 			}) {
 				uni.navigateTo({
 					url: "/house_pages/house/detail?id=" + id,
+				})
+			},
+			toLandlordDetail({
+				landlordUser
+			}) {
+				uni.navigateTo({
+					url: "/landlord_pages/detail/detail?id=" + landlordUser.id,
 				})
 			}
 		}
@@ -170,7 +178,6 @@
 						.house-landlord-head {
 							width: 40rpx;
 							height: 40rpx;
-							justify-content: space-between;
 							border-radius: 50%;
 							margin-right: 10rpx;
 							background-color: #f8f8f8;
