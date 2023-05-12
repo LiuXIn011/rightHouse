@@ -1,6 +1,6 @@
 <template>
 	<view class="page-veiw">
-		<u-navbar leftIconColor="#fff" title=" " bgColor="transparent" :autoBack="true">
+		<u-navbar leftIconColor="#fff" bgColor="transparent" :autoBack="true">
 		</u-navbar>
 		<image class="head_bg" src="/static/image/landlord_bg.jpg" mode="aspectFill"></image>
 		<view class="landlord-detail">

@@ -13,6 +13,7 @@ Vue.prototype.$http = http;
 
 import config from '@/config.js'
 Vue.prototype.$baseUrl = config.baseUrl
+Vue.prototype.$mapKey = config.mapKey
 
 
 import store from "./store";

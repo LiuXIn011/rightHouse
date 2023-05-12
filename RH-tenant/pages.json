@@ -10,9 +10,7 @@
 		{
 			"path": "pages/market/market",
 			"style": {
-				"navigationBarTitleText": "房市",
-				"navigationBarTextStyle": "white", //导航栏标题颜色
-				"navigationBarBackgroundColor": "#FFA92F" //导航栏背景颜色
+				"navigationStyle": "custom"
 			}
 		},
 		{

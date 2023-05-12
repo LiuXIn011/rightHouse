@@ -1,7 +1,9 @@
 <template>
 	<view class="page-view">
+		<u-navbar placeholder :leftText="locationAddressText" leftIcon="map" bgColor="#FFA92F" @leftClick="getUserLocationAuth">
+		</u-navbar>
 		<view class="search-view">
-			<u-search shape="round" placeholder="房屋名称/房东名称" :showAction="false" v-model="searchData.keyword"
+			<u-search shape="round" placeholder="房屋名称/房东名称/地址" :showAction="false" v-model="searchData.keyword"
 				@search="searchList"></u-search>
 		</view>
 		<scroll-view class="house-list" scroll-y="true" @scrolltolower="scrolltolower">
@@ -38,20 +40,33 @@
 </template>
 
 <script>
+	import amap from '../../common/amap-wx.130.js';
 	export default {
 		data() {
 			return {
 				searchData: {
 					keyword: "",
+					latitude: "",
+					longitude: "",
 					index: 1,
 					size: 10
 				},
 				houseList: [],
-				loadmoreStatus: "loadmore"
+				locationAddressText: "",
+				addressInfo: {},
+				loadmoreStatus: "loadmore",
+				amapPlugin: null,
 			}
+		},
+		onLoad() {
+			this.amapPlugin = new amap.AMapWX({
+				key: this.$mapKey
+			});
+			this.positioningAddress()
 		},
 		onShow() {
 			this.getList()
+
 		},
 		methods: {
 			scrolltolower() {
@@ -106,6 +121,114 @@
 				uni.navigateTo({
 					url: "/landlord_pages/detail/detail?id=" + landlordUser.id,
 				})
+			},
+			getUserLocationAuth() {
+				// 查询是否授权
+				uni.getSetting({
+					success: (res) => {
+						if (res.authSetting['scope.userLocation']) {
+							// 已授权
+							this.chooseLocationFun()
+						} else {
+							// 未授权去获取授权
+							uni.authorize({
+								scope: 'scope.userLocation',
+								success: () => {
+									this.chooseLocationFun()
+								},
+								fail: () => {
+									uni.showToast({
+										icon: 'error',
+										title: '拒绝授权'
+									})
+								}
+							})
+						}
+					}
+				})
+			},
+
+			chooseLocationFun() {
+				uni.chooseLocation({
+					success: (data) => {
+						const {
+							errMsg,
+							address,
+						} = data
+						if (errMsg === "chooseLocation:ok") {
+							let municipalityList = ['北京市', '上海市', '重庆市', '天津市']
+							// 是否是直辖市
+							let isMunicipality = municipalityList.some(item => address.includes(item))
+							if (isMunicipality) {
+								let reg =
+									'(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
+								let addressFormat = address.match(reg)
+								// 解析省市区
+								data.provinceName = addressFormat[1]
+								data.cityName = '直辖市'
+								data.areaName = addressFormat[2]
+								data.addresInfo = addressFormat[3]
+							} else {
+								let reg =
+									'(?<province>[^省]+自治区|.*?省|.*?行政区|.*?市)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
+								let addressFormat = address.match(reg)
+								// 解析省市区
+								data.provinceName = addressFormat[2]
+								data.cityName = addressFormat[3]
+								data.areaName = addressFormat[4]
+								data.addresInfo = addressFormat[5]
+							}
+
+						}
+					},
+					fail: (err) => {
+						uni.showToast({
+							icon: 'error',
+							title: '获取失败'
+						})
+					}
+				})
+			},
+			positioningAddress() {
+				if (!this.amapPlugin) {
+					uni.showToast({
+						icon: 'error',
+						title: '定位组件异常'
+					})
+					return
+				}
+				this.amapPlugin.getRegeo({
+					success: (data) => {
+						console.log(data);
+						try {
+							// 显示的地址
+							let addressTxt = data[0].desc
+							// 控制12个字符以内
+							if (addressTxt.length > 12) {
+								this.locationAddressText = addressTxt.slice(0, 12) + '...'
+							} else {
+								this.locationAddressText = addressTxt
+							}
+							this.addressInfo = data[0].regeocodeData.addressComponent
+
+						} catch (e) {
+							uni.showToast({
+								title: "获取位置失败，请重启小程序",
+								icon: "error"
+							})
+							this.locationAddressText = '获取位置失败，请手动获取。'
+						}
+					},
+					// 获取位置失败
+					fail: (err) => {
+						uni.showToast({
+							title: "获取位置失败，请重启小程序",
+							icon: "error"
+						})
+						this.locationAddressText = '获取位置失败，请手动获取。'
+					}
+
+				});
 			}
 		}
 	}
@@ -119,7 +242,7 @@
 		}
 
 		.house-list {
-			height: calc(100vh - 100rpx);
+			height: calc(100vh - 280rpx);
 
 			.item-shell {
 				display: flex;

@@ -9,10 +9,10 @@
 				</view>
 			</slot>
 		</view>
-		<u-picker title="请选择" closeOnClickOverlay :loading="loading" keyName="name" :defaultIndex="defaultIndex"
+		<!-- <u-picker title="请选择" closeOnClickOverlay :loading="loading" keyName="name" :defaultIndex="defaultIndex"
 			:show="showAddressPicker" ref="uPicker" :columns="addressList" @confirm="addressPickerConfirm"
 			@change="changeHandler" @cancel="showAddressPicker = false" @close="showAddressPicker = false">
-		</u-picker>
+		</u-picker> -->
 	</view>
 </template>
 
@@ -24,8 +24,8 @@
 		name: "cityPicker",
 		props: {
 			defaultCity: {
-				default: () => [],
-				type: Array
+				default: '',
+				type: String
 			},
 			disabled: {
 				default: false,
@@ -42,19 +42,88 @@
 			}
 		},
 		created() {
-			this.getAddressCode()
+			// this.getAddressCode()
 		},
 		watch: {
-			defaultCity() {
-				this.getAddressCode()
+			defaultCity(data) {
+				this.addresText = data
 			}
 		},
 		methods: {
 			openPicker() {
 				if (!this.disabled) {
-					this.showAddressPicker = true
-					this.getAddressCode()
+					// this.showAddressPicker = true
+					// this.getAddressCode()
+					this.getUserLocationAuth()
 				}
+			},
+			getUserLocationAuth() {
+				// 查询是否授权
+				uni.getSetting({
+					success: (res) => {
+						if (res.authSetting['scope.userLocation']) {
+							// 已授权
+							this.chooseLocationFun()
+						} else {
+							// 未授权去获取授权
+							uni.authorize({
+								scope: 'scope.userLocation',
+								success: () => {
+									this.chooseLocationFun()
+								},
+								fail: () => {
+									uni.showToast({
+										icon: 'error',
+										title: '拒绝授权'
+									})
+								}
+							})
+						}
+					}
+				})
+			},
+
+			chooseLocationFun() {
+				uni.chooseLocation({
+					success: (data) => {
+						const {
+							errMsg,
+							address,
+						} = data
+						if (errMsg === "chooseLocation:ok") {
+							let municipalityList = ['北京市', '上海市', '重庆市', '天津市']
+							// 是否是直辖市
+							let isMunicipality = municipalityList.some(item => address.includes(item))
+							if (isMunicipality) {
+								let reg =
+									'(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
+								let addressFormat = address.match(reg)
+								// 解析省市区
+								data.provinceName = addressFormat[1]
+								data.cityName = '直辖市'
+								data.areaName = addressFormat[2]
+								data.addresInfo = addressFormat[3]
+							} else {
+								let reg =
+									'(?<province>[^省]+自治区|.*?省|.*?行政区|.*?市)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
+								let addressFormat = address.match(reg)
+								// 解析省市区
+								data.provinceName = addressFormat[1]
+								data.cityName = addressFormat[2]
+								data.areaName = addressFormat[3]
+								data.addresInfo = addressFormat[4]
+							}
+							this.$emit("change", data)
+							this.addresText = `${data.provinceName}${data.cityName==='直辖市'?'':data.cityName}${data.areaName}`
+						}
+					},
+					fail: (err) => {
+						uni.showToast({
+							icon: 'error',
+							title: '获取失败'
+						})
+					}
+				})
 			},
 			addressPickerConfirm({
 				indexs,

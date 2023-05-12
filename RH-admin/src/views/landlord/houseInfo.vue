@@ -86,12 +86,13 @@ const onItemClick = (data: any) => {
 <style lang="scss">
 .house-info {
   width: 100%;
-  min-height: 300px;
+  height: 500px;
   margin: 20px 0;
   background-color: var(--color-bg-2);
   box-shadow: 0 2px 12px 0 rgba($color: #000000, $alpha: 0.1);
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 </style>

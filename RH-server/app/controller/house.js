@@ -21,6 +21,34 @@ class HouseController extends Controller {
   }
   // 添加
   async insert() {
+    // 获取省市区id
+    function findCodeByProvinceName(data) {
+      // 循环一级找省
+      for (let i = 0; i < cityCode.length; i++) {
+        const provinceItem = cityCode[i];
+        if (provinceItem.name === data.provinceName) {
+          data.provinceId = provinceItem.id;
+          // 循环二级找市
+          for (let j = 0; j < provinceItem.child.length; j++) {
+            const cityItem = provinceItem.child[j];
+            if (cityItem.name === data.cityName) {
+              data.cityId = cityItem.id;
+              // 循环三级找区
+              for (let k = 0; k < cityItem.child.length; k++) {
+                const areaItem = cityItem.child[k];
+                if (areaItem.name === data.areaName) {
+                  data.areaId = areaItem.id;
+                  break;
+                }
+              }
+              break;
+            }
+          }
+          break;
+        }
+      }
+    }
+
     const { ctx } = this;
     const insertRule = {
       // name: 'string',
@@ -46,6 +74,9 @@ class HouseController extends Controller {
     data.electricityFee = data.electricityFee || 0;
     data.internetFee = data.internetFee || 0;
     data.fuelFee = data.fuelFee || 0;
+    // 获取省市区id
+    findCodeByProvinceName(data);
+    console.log(data);
     const insertHouse = await ctx.service.house.insert(data);
     ctx.body = {
       status: 1,
@@ -374,7 +405,7 @@ class HouseController extends Controller {
           landlordUserInfo &&
           landlordUserInfo.phone
         ) {
-        // 发送退租短信
+          // 发送退租短信
           ctx.sms.sendSMS({
             PhoneNumbers: landlordUserInfo.phone,
             SignName: this.config.houseOutLandlordMessage.SignName,
