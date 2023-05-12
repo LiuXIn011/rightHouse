@@ -1,6 +1,6 @@
-// 接口访问地址配置
-var baseUrl = ''
-var config = {
-	baseUrl: baseUrl,
+module.exports = {
+	// 接口访问地址配置
+	baseUrl: "",
+	// 高德地图key配置
+	mapKey: ""
 }
-module.exports = config
