@@ -76,7 +76,6 @@ class HouseController extends Controller {
     data.fuelFee = data.fuelFee || 0;
     // 获取省市区id
     findCodeByProvinceName(data);
-    console.log(data);
     const insertHouse = await ctx.service.house.insert(data);
     ctx.body = {
       status: 1,

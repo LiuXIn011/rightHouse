@@ -1,6 +1,7 @@
 <template>
 	<view class="page-view">
-		<u-navbar placeholder :leftText="locationAddressText" leftIcon="map" bgColor="#FFA92F" @leftClick="getUserLocationAuth">
+		<u-navbar placeholder :leftText="locationAddressText" leftIcon="map" bgColor="#FFA92F"
+			@leftClick="getUserLocationAuth(1)">
 		</u-navbar>
 		<view class="search-view">
 			<u-search shape="round" placeholder="房屋名称/房东名称/地址" :showAction="false" v-model="searchData.keyword"
@@ -52,21 +53,19 @@
 					size: 10
 				},
 				houseList: [],
+				amapPlugin: null,
 				locationAddressText: "",
 				addressInfo: {},
 				loadmoreStatus: "loadmore",
-				amapPlugin: null,
 			}
 		},
 		onLoad() {
 			this.amapPlugin = new amap.AMapWX({
 				key: this.$mapKey
 			});
-			this.positioningAddress()
 		},
 		onShow() {
-			this.getList()
-
+			this.getUserLocationAuth(2)
 		},
 		methods: {
 			scrolltolower() {
@@ -77,7 +76,6 @@
 			},
 			searchList() {
 				this.searchData.index = 1
-				this.houseList = []
 				this.getList()
 			},
 			getList() {
@@ -122,25 +120,39 @@
 					url: "/landlord_pages/detail/detail?id=" + landlordUser.id,
 				})
 			},
-			getUserLocationAuth() {
+			getUserLocationAuth(type) {
+				// type1选择地址  2定位地址
 				// 查询是否授权
 				uni.getSetting({
 					success: (res) => {
 						if (res.authSetting['scope.userLocation']) {
 							// 已授权
-							this.chooseLocationFun()
+							if (type === 1) {
+								this.chooseLocationFun()
+							} else {
+								this.getLocationFun()
+							}
 						} else {
 							// 未授权去获取授权
 							uni.authorize({
 								scope: 'scope.userLocation',
 								success: () => {
-									this.chooseLocationFun()
+									if (type === 1) {
+										this.chooseLocationFun()
+									} else {
+										this.getLocationFun()
+									}
 								},
 								fail: () => {
 									uni.showToast({
 										icon: 'error',
 										title: '拒绝授权'
 									})
+									setTimeout(() => {
+										this.searchData.latitude = ''
+										this.searchData.longitude = ''
+										this.getList()
+									}, 1500)
 								}
 							})
 						}
@@ -153,32 +165,13 @@
 					success: (data) => {
 						const {
 							errMsg,
-							address,
+							latitude,
+							longitude
 						} = data
 						if (errMsg === "chooseLocation:ok") {
-							let municipalityList = ['北京市', '上海市', '重庆市', '天津市']
-							// 是否是直辖市
-							let isMunicipality = municipalityList.some(item => address.includes(item))
-							if (isMunicipality) {
-								let reg =
-									'(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
-								let addressFormat = address.match(reg)
-								// 解析省市区
-								data.provinceName = addressFormat[1]
-								data.cityName = '直辖市'
-								data.areaName = addressFormat[2]
-								data.addresInfo = addressFormat[3]
-							} else {
-								let reg =
-									'(?<province>[^省]+自治区|.*?省|.*?行政区|.*?市)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
-								let addressFormat = address.match(reg)
-								// 解析省市区
-								data.provinceName = addressFormat[2]
-								data.cityName = addressFormat[3]
-								data.areaName = addressFormat[4]
-								data.addresInfo = addressFormat[5]
-							}
-
+							this.searchData.latitude = latitude
+							this.searchData.longitude = longitude
+							this.searchList()
 						}
 					},
 					fail: (err) => {
@@ -189,7 +182,10 @@
 					}
 				})
 			},
-			positioningAddress() {
+			getLocationFun() {
+				uni.showLoading({
+					title: "获取位置中"
+				})
 				if (!this.amapPlugin) {
 					uni.showToast({
 						icon: 'error',
@@ -209,26 +205,35 @@
 							} else {
 								this.locationAddressText = addressTxt
 							}
-							this.addressInfo = data[0].regeocodeData.addressComponent
-
+							this.searchData.latitude = data[0].latitude
+							this.searchData.longitude = data[0].longitude
+							this.getList()
 						} catch (e) {
 							uni.showToast({
 								title: "获取位置失败，请重启小程序",
 								icon: "error"
 							})
-							this.locationAddressText = '获取位置失败，请手动获取。'
+							this.locationAddressText = '点击获取位置'
+							setTimeout(() => {
+								this.searchData.latitude = ''
+								this.searchData.longitude = ''
+								this.getList()
+							}, 1500)
 						}
 					},
-					// 获取位置失败
-					fail: (err) => {
+					fail: () => {
 						uni.showToast({
-							title: "获取位置失败，请重启小程序",
-							icon: "error"
+							icon: 'error',
+							title: '定位失败'
 						})
-						this.locationAddressText = '获取位置失败，请手动获取。'
+						this.locationAddressText = '点击获取位置'
+						setTimeout(() => {
+							this.searchData.latitude = ''
+							this.searchData.longitude = ''
+							this.getList()
+						}, 1500)
 					}
-
-				});
+				})
 			}
 		}
 	}

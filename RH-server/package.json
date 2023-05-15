@@ -20,7 +20,8 @@
     "egg-validate": "^2.0.2",
     "minio": "^7.0.32",
     "mysql2": "^2.3.3",
-    "silly-datetime": "^0.1.2"
+    "silly-datetime": "^0.1.2",
+    "soeasymath": "^2.0.0"
   },
   "devDependencies": {
     "egg-bin": "^5",

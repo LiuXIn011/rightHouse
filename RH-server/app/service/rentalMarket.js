@@ -1,4 +1,5 @@
 const { Service } = require('egg');
+const { addition, subtraction } = require('soeasymath');
 class rentalMarket extends Service {
   async insert(data) {
     const rentalMarket = await this.ctx.model.RentalMarket.create(data);
@@ -155,6 +156,19 @@ class rentalMarket extends Service {
         ]
       };
     }
+    // 是否限制经纬度（查询方圆2公里内的房源）
+    // 1经度=85.276Km   1纬度=111Km
+    if (params.longitude) {
+      option.where['$house.longitude$'] = {
+        [Op.between]: [ subtraction(params.longitude, 0.011), addition(params.longitude, 0.011) ]
+      };
+    }
+    if (params.latitude) {
+      option.where['$house.latitude$'] = {
+        [Op.between]: [ subtraction(params.latitude, 0.009), addition(params.latitude, 0.009) ]
+      };
+    }
+    // 房屋名称搜索
     if (params.houseName) {
       option.where = {
         ...option.where,
@@ -163,6 +177,7 @@ class rentalMarket extends Service {
         }
       };
     }
+    // 房东名称搜索
     if (params.landlordName) {
       option.where = {
         ...option.where,
