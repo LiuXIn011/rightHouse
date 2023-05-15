@@ -40,7 +40,7 @@ export default defineStore('user', {
       window.localStorage.removeItem('cacheRoutes')
       window.localStorage.removeItem('token')
       rStore.removeHistoryRouter()
-      router.replace('/')
+      router.replace('/login')
     },
     getUserInfo () {
       return getUserInfo().then(({

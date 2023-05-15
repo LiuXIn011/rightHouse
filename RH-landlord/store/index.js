@@ -36,7 +36,11 @@ const store = new Vuex.Store({
 				if (res.status === 1) {
 					commit("setLogin", true);
 					commit("setUserInfo", res.data);
-					if (res.data.maintenanceLength && res.data.maintenanceLength > 0) {
+					// 有报修或租赁申请给红点
+					if (
+					(res.data.maintenanceLength && res.data.maintenanceLength > 0) ||
+					(res.data.leaseApplicationLength && res.data.leaseApplicationLength > 0)
+					) {
 						uni.showTabBarRedDot({
 							index: 1,
 						})

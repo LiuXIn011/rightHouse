@@ -8,6 +8,12 @@
 			}
 		},
 		{
+			"path": "pages/market/market",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/user/user",
 			"style": {
 				"navigationStyle": "custom"
@@ -22,6 +28,15 @@
 		}
 	],
 	"subpackages": [{
+		"root":"landlord_pages",
+		"pages":[{
+			"path": "detail/detail",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}]
+	},{
 		"root": "house_pages",
 		"pages": [{
 				"path": "house/join",
@@ -59,6 +74,22 @@
 				}
 			},
 			{
+				"path": "house/detail",
+				"style": {
+					"navigationStyle": "custom",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "house/star",
+				"style": {
+					"navigationBarTitleText": "我的收藏",
+					"navigationBarTextStyle": "white", //导航栏标题颜色
+					"navigationBarBackgroundColor": "#FFA92F", //导航栏背景颜色
+					"enablePullDownRefresh": false
+				}
+			},
+			{
 				"path": "comments/add",
 				"style": {
 					"navigationBarTitleText": "评价",
@@ -86,6 +117,12 @@
 				"iconPath": "static/image/tabBar/home.png",
 				"selectedIconPath": "static/image/tabBar/home-on.png",
 				"text": "首页"
+			},
+			{
+				"pagePath": "pages/market/market",
+				"iconPath": "static/image/tabBar/market.png",
+				"selectedIconPath": "static/image/tabBar/market-on.png",
+				"text": "房市"
 			},
 			{
 				"pagePath": "pages/user/user",

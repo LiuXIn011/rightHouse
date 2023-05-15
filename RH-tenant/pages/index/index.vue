@@ -32,9 +32,6 @@
 				<u-button type="primary" text="房间报修" @click="toMaintenance"></u-button>
 			</view>
 		</view>
-		<u-action-sheet :actions="houseList" @select="chooseHouseActionSave" title="所有租房"
-			:show="chooseHouseActionSheetShow" @close="chooseHouseActionSheetShow=false" safeAreaInsetBottom round="25"
-			cancelText="取消"></u-action-sheet>
 		<u-loading-page color="#FFA92F" loading-color="#FFA92F" :icon-size="loadingSize" :image="loadingImg"
 			:loading-text="loadingText" loading-mode="circle" :loading="pageLoading"></u-loading-page>
 	</view>
@@ -53,7 +50,6 @@
 				loadingSize: 50,
 				loadingImg: "",
 				loadingText: '加载中...',
-				chooseHouseActionSheetShow: false
 			}
 		},
 		onLoad() {
@@ -99,7 +95,7 @@
 				})
 			},
 			switchHouseInfo(data) {
-				this.houseInfo = data
+				this.houseInfo = JSON.parse(JSON.stringify(data))
 				if (
 					this.houseInfo.headImg
 				) {
@@ -116,17 +112,24 @@
 				}
 			},
 			swiperClick(index) {
-				console.log(this.houseInfo.headImg);
 				uni.previewImage({
 					current: index,
 					urls: (this.houseInfo.headImg || []).map(item => item.url)
 				})
 			},
 			chooseHouse() {
-				this.chooseHouseActionSheetShow = true
-			},
-			chooseHouseActionSave(data) {
-				this.switchHouseInfo(data)
+				uni.showActionSheet({
+					title: "选择房屋",
+					itemList: this.houseList.map(item => item.name),
+					success: ({
+						tapIndex
+					}) => {
+						this.switchHouseInfo(this.houseList[tapIndex])
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
+				});
 			},
 			makePhone() {
 				uni.showModal({

@@ -91,20 +91,17 @@ module.exports = app => {
   });
 
   Model.associate = function() {
+    // 与房屋的关系
     Model.hasMany(app.model.House, {
-      foreignKey: 'userId'
-    });
-    app.model.House.belongsTo(Model, {
       foreignKey: 'userId'
     });
     // 与评论表的关系
     Model.hasMany(app.model.Comments, {
-      foreignKey: 'landlordId',
-      otherKey: 'id'
+      foreignKey: 'landlordId'
     });
-    app.model.Comments.belongsTo(Model, {
-      foreignKey: 'landlordId',
-      otherKey: 'id'
+    // 与房市的关系
+    Model.hasMany(app.model.RentalMarket, {
+      foreignKey: 'userId'
     });
   };
 

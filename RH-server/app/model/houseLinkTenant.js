@@ -65,20 +65,6 @@ module.exports = app => {
       foreignKey: 'tenantId',
       otherKey: 'houseId'
     });
-
-    // app.model.House.hasMany(Model, {
-    //   foreignKey: 'id'
-    // });
-    // Model.belongsTo(app.model.House, {
-    //   foreignKey: 'houseId'
-    // });
-
-    // app.model.TenantsUser.hasMany(Model, {
-    //   foreignKey: 'id'
-    // });
-    // Model.belongsTo(app.model.TenantsUser, {
-    //   foreignKey: 'tenantId'
-    // });
   };
 
   return Model;

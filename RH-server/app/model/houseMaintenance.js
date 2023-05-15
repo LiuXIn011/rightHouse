@@ -73,7 +73,14 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-
+    // 与房屋的关系
+    Model.belongsTo(app.model.House, {
+      foreignKey: 'houseId'
+    });
+    // 与租客的关系
+    Model.belongsTo(app.model.TenantsUser, {
+      foreignKey: 'tenantId'
+    });
   };
 
   return Model;

@@ -100,6 +100,14 @@ export const routes = [
         }
       },
       {
+        path: 'market',
+        name: 'market',
+        component: () => import('@/views/house/market.vue'),
+        meta: {
+          title: '租房市场'
+        }
+      },
+      {
         path: 'houseListMaintenance',
         name: 'houseListMaintenance',
         component: () => import('@/views/house/houseListMaintenance.vue'),

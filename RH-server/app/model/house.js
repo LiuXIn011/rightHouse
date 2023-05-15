@@ -73,6 +73,18 @@ module.exports = app => {
       field: 'addres_info',
       comment: '详细地址'
     },
+    longitude: {
+      type: DataTypes.DOUBLE(20, 8),
+      allowNull: true,
+      field: 'longitude',
+      comment: '经度'
+    },
+    latitude: {
+      type: DataTypes.DOUBLE(20, 8),
+      allowNull: true,
+      field: 'latitude',
+      comment: '纬度'
+    },
     area: {
       type: DataTypes.STRING(255),
       allowNull: true,
@@ -80,13 +92,13 @@ module.exports = app => {
       comment: '面积'
     },
     price: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DOUBLE(20, 8),
       allowNull: true,
       field: 'price',
       comment: '租金'
     },
     fakePrice: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DOUBLE(20, 8),
       allowNull: true,
       field: 'fake_price',
       comment: '对外租金'
@@ -134,25 +146,25 @@ module.exports = app => {
       comment: '阳台  1有  0没有'
     },
     waterFee: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DOUBLE(20, 8),
       allowNull: true,
       field: 'water_fee',
       comment: '水费'
     },
     electricityFee: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DOUBLE(20, 8),
       allowNull: true,
       field: 'electricity_fee',
       comment: '电费'
     },
     internetFee: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DOUBLE(20, 8),
       allowNull: true,
       field: 'internet_fee',
       comment: '网费'
     },
     fuelFee: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DOUBLE(20, 8),
       allowNull: true,
       field: 'fuel_fee',
       comment: '燃气费'
@@ -200,33 +212,20 @@ module.exports = app => {
 
   Model.associate = function() {
     // 与房东的关联关系声明
-    Model.hasOne(app.model.LandlordUser, {
-      foreignKey: 'id',
-      otherKey: 'userId'
+    Model.belongsTo(app.model.LandlordUser, {
+      foreignKey: 'userId'
     });
-    app.model.LandlordUser.hasMany(Model, {
-      foreignKey: 'id',
-      otherKey: 'userId'
-    });
-
     // 与维修表的关系声明
     Model.hasMany(app.model.HouseMaintenance, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
+      foreignKey: 'houseId'
     });
-    app.model.HouseMaintenance.belongsTo(Model, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
-    });
-
     // 与评论表的关系
     Model.hasMany(app.model.Comments, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
+      foreignKey: 'houseId'
     });
-    app.model.Comments.belongsTo(Model, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
+    // 与房市记录的关系
+    Model.hasOne(app.model.RentalMarket, {
+      foreignKey: 'houseId'
     });
   };
 

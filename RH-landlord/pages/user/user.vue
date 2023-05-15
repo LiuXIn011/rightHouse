@@ -27,6 +27,9 @@
 			<u-cell title="房间报修" isLink icon="file-text-fill" @click="toMaintenance">
 				<u-badge slot="value" max="99" :value="userInfo.maintenanceLength || 0"></u-badge>
 			</u-cell>
+			<u-cell title="租赁申请" isLink icon="rmb-circle-fill" @click="toLeaseApplication">
+				<u-badge slot="value" max="99" :value="userInfo.leaseApplicationLength || 0"></u-badge>
+			</u-cell>
 		</u-cell-group>
 		<u-button type="error" v-if="isLogin" @click="logout" circle text="退出登录"></u-button>
 		<u-popup :show="infoPopupShow" :round="20" mode="bottom" @close="infoPopupShow = false">
@@ -155,6 +158,11 @@
 					url: "/house_pages/house/maintenanceList"
 				})
 			},
+			toLeaseApplication() {
+				uni.navigateTo({
+					url: "/house_pages/house/leaseApplication"
+				})
+			},
 			headImgAfterRead(event) {
 				let fileList = event.file
 				this.userInfoData.headImg = [{
@@ -171,7 +179,7 @@
 				//上传
 				let token = uni.getStorageSync('token')
 				uni.uploadFile({
-					url: `${this.$baseUrl}api/file/upload`,
+					url: `${this.$baseUrl}/api/file/upload`,
 					header: {
 						'Authorization': token,
 						'content-type': 'application/x-www-form-urlencggoded;charset=UTF-8'

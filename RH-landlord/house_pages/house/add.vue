@@ -118,7 +118,7 @@
 					<u-radio label="无" :name="0"></u-radio>
 				</u-radio-group>
 			</u-form-item>
-			<u-form-item label="地址：" prop="provinceId" borderBottom @click="showAddressPicker=true">
+			<u-form-item label="地址：" prop="provinceName" borderBottom @click="showAddressPicker=true">
 				<cityPicker :disabled="pageType===3" :defaultCity="defaultCity" @change="addresChange">
 				</cityPicker>
 			</u-form-item>
@@ -156,6 +156,8 @@
 					area: "",
 					price: "",
 					fakePrice: "",
+					longitude: "",
+					latitude: "",
 					depositNumber: 1,
 					floor: 1,
 					priceNumber: 1,
@@ -172,7 +174,7 @@
 					parentId: 0
 				},
 				pageType: 0,
-				defaultCity: [],
+				defaultCity: '',
 			}
 		},
 		computed: {
@@ -217,7 +219,7 @@
 					// waterFee: [{
 					// 		validator: (rule, value, callback) => {
 					// 			return this.formData.waterFee !== '' && this.formData.waterFee !== null && this
-					// 				.form
+					// 				.formData
 					// 				.waterFee !== undefined
 					// 		},
 					// 		message: '请填写水费,免费请填0.'
@@ -226,7 +228,7 @@
 					// 		validator: (rule, value, callback) => {
 					// 			return this.formData.electricityFee !== '' && this.formData.electricityFee !==
 					// 				null && this
-					// 				.form.electricityFee !==
+					// 				.formData.electricityFee !==
 					// 				undefined
 					// 		},
 					// 		message: '请填写电费,免费请填0.'
@@ -234,7 +236,7 @@
 					// 	{
 					// 		validator: (rule, value, callback) => {
 					// 			return this.formData.internetFee !== '' && this.formData.internetFee !== null &&
-					// 				this.form
+					// 				this.formData
 					// 				.internetFee !== undefined
 					// 		},
 					// 		message: '请填写网费,免费请填0.'
@@ -244,25 +246,34 @@
 							validator: (rule, value, callback) => {
 								return this.formData.depositNumber !== '' && this.formData.depositNumber !==
 									null && this
-									.form.depositNumber !== undefined
+									.formData.depositNumber !== undefined
 							},
 							message: '请填写押金方式,无需押金请填0.'
 						},
 						{
 							validator: (rule, value, callback) => {
 								return this.formData.priceNumber !== '' && this.formData.priceNumber !== null &&
-									this.form
+									this.formData
 									.priceNumber !== undefined
 							},
 							message: '请填写一次付租月数.'
 						}
 					],
-					provinceId: [{
+					provinceName: [{
 						validator: (rule, value, callback) => {
-							return this.formData.provinceId !== '' && this.formData.provinceId !== null && this
-								.form.provinceId !== undefined
+							return this.formData.provinceName &&
+								this.formData.cityName &&
+								this.formData.areaName &&
+								this.formData.longitude &&
+								this.formData.latitude
 						},
 						message: '请选择地址'
+					}],
+					addresInfo: [{
+						required: true,
+						message: '请填写详细地址',
+						// blur和change事件触发检验
+						trigger: ['blur', 'change'],
 					}],
 					headImg: [{
 						validator: (rule, value, callback) => {
@@ -307,17 +318,25 @@
 		},
 		methods: {
 			addresChange(data) {
-				if (
-					data &&
-					Array.isArray(data) &&
-					data.length === 3
-				) {
-					this.formData.provinceId = data[0].id
-					this.formData.provinceName = data[0].name
-					this.formData.cityId = data[1].id
-					this.formData.cityName = data[1].name
-					this.formData.areaId = data[2].id
-					this.formData.areaName = data[2].name
+				// if (
+				// 	data &&
+				// 	Array.isArray(data) &&
+				// 	data.length === 3
+				// ) {
+				// 	this.formData.provinceId = data[0].id
+				// 	this.formData.provinceName = data[0].name
+				// 	this.formData.cityId = data[1].id
+				// 	this.formData.cityName = data[1].name
+				// 	this.formData.areaId = data[2].id
+				// 	this.formData.areaName = data[2].name
+				// }
+				if (data) {
+					this.formData.provinceName = data.provinceName
+					this.formData.cityName = data.cityName
+					this.formData.areaName = data.areaName
+					this.formData.addresInfo = data.addresInfo
+					this.formData.longitude = data.longitude
+					this.formData.latitude = data.latitude
 				}
 			},
 			save() {
@@ -341,23 +360,23 @@
 			},
 			release() {
 				this.$refs.formRef.validate().then(res => {
-					if (
-						(this.formData.headImg &&
-							Array.isArray(this.formData.headImg) &&
-							this.formData.headImg.length === 0) ||
-						!this.formData.headImg
-					) {
-						uni.showToast({
-							icon: "none",
-							title: "发布到房圈必须上传图片"
-						})
-						return
-					}
 					if (this.formData.rentalMarket) {
 						// 下架
 						this.unreleaseHouse()
 					} else {
 						// 发布
+						if (
+							(this.formData.headImg &&
+								Array.isArray(this.formData.headImg) &&
+								this.formData.headImg.length === 0) ||
+							!this.formData.headImg
+						) {
+							uni.showToast({
+								icon: "none",
+								title: "发布到房市必须上传图片"
+							})
+							return
+						}
 						if (this.formData.id) {
 							// 先编辑再发布
 							this.$http.request({
@@ -393,35 +412,55 @@
 				})
 			},
 			unreleaseHouse() {
-				this.$http.request({
-					url: "/api/rentalMarket/updateStatus",
-					method: "post",
-					data: {
-						id: this.formData.rentalMarket.id,
-						status: 2
-					}
-				}).then(({
-					status,
-					data
-				}) => {
-					if (status === 1) {
-						this.$goBack("已从房圈下架！")
+				uni.showModal({
+					title: "提示",
+					content: "是否从租房市场下架？",
+					success: ({
+						confirm
+					}) => {
+						if (confirm) {
+							this.$http.request({
+								url: "/api/rentalMarket/updateStatus",
+								method: "post",
+								data: {
+									id: this.formData.rentalMarket.id,
+									status: 2
+								}
+							}).then(({
+								status,
+								data
+							}) => {
+								if (status === 1) {
+									this.$goBack("已从房市下架！")
+								}
+							})
+						}
 					}
 				})
 			},
 			releaseHouse(houseId) {
-				this.$http.request({
-					url: "/api/rentalMarket/insert",
-					method: "post",
-					data: {
-						houseId
-					}
-				}).then(({
-					status,
-					data
-				}) => {
-					if (status === 1) {
-						this.$goBack("已成功发布到房圈！")
+				uni.showModal({
+					title: "提示",
+					content: "是否发布到租房市场？",
+					success: ({
+						confirm
+					}) => {
+						if (confirm) {
+							this.$http.request({
+								url: "/api/rentalMarket/insert",
+								method: "post",
+								data: {
+									houseId
+								}
+							}).then(({
+								status,
+								data
+							}) => {
+								if (status === 1) {
+									this.$goBack("已成功发布到房市！")
+								}
+							})
+						}
 					}
 				})
 			},
@@ -437,16 +476,17 @@
 					data
 				}) => {
 					if (status === 1) {
-						this.defaultCity = [{
-								id: data.provinceId
-							},
-							{
-								id: data.cityId
-							},
-							{
-								id: data.areaId
-							}
-						]
+						// this.defaultCity = [{
+						// 		id: data.provinceId
+						// 	},
+						// 	{
+						// 		id: data.cityId
+						// 	},
+						// 	{
+						// 		id: data.areaId
+						// 	}
+						// ]
+						this.defaultCity = `${data.provinceName}${data.cityName==='直辖市'?'':data.cityName}${data.areaName}`
 						this.formData.provinceId = data.provinceId
 						this.formData.provinceName = data.provinceName
 						this.formData.cityId = data.cityId
@@ -454,6 +494,10 @@
 						this.formData.areaId = data.areaId
 						this.formData.areaName = data.areaName
 						this.formData.addresInfo = data.addresInfo
+						this.formData.addresInfo = data.addresInfo
+						this.formData.addresInfo = data.addresInfo
+						this.formData.longitude = data.longitude
+						this.formData.latitude = data.latitude
 					}
 				})
 			},
@@ -508,16 +552,17 @@
 						}
 						this.formData.id = data.id
 						this.formData.rentalMarket = data.rentalMarket
-						this.defaultCity = [{
-								id: data.provinceId
-							},
-							{
-								id: data.cityId
-							},
-							{
-								id: data.areaId
-							}
-						]
+						this.defaultCity = `${data.provinceName}${data.cityName==='直辖市'?'':data.cityName}${data.areaName}`
+						// this.defaultCity = [{
+						// 		id: data.provinceId
+						// 	},
+						// 	{
+						// 		id: data.cityId
+						// 	},
+						// 	{
+						// 		id: data.areaId
+						// 	}
+						// ]
 					}
 				})
 			},
@@ -540,7 +585,7 @@
 				//上传
 				let token = uni.getStorageSync('token')
 				uni.uploadFile({
-					url: `${this.$baseUrl}api/file/upload`,
+					url: `${this.$baseUrl}/api/file/upload`,
 					header: {
 						'Authorization': token,
 						'content-type': 'application/x-www-form-urlencggoded;charset=UTF-8'

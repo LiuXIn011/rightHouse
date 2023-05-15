@@ -1,4 +1,9 @@
-## 2.0.34（2022-09-25）
+## 2.0.36（2023-03-27）
+# uView2.0重磅发布，利剑出鞘，一统江湖
+
+1. 重构`deepClone` & `deepMerge`方法
+2. 其他优化
+## 2.0.34（2022-09-24）
 # uView2.0重磅发布，利剑出鞘，一统江湖
 
 1. `u-input`、`u-textarea`增加`ignoreCompositionEvent`属性

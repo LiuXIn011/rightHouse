@@ -28,6 +28,7 @@ module.exports = app => {
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'hot_degree',
+      defaultValue: 10,
       comment: '热度'
     },
     status: {
@@ -60,22 +61,16 @@ module.exports = app => {
   });
   Model.associate = function() {
     // 与房子的关联关系声明
-    Model.hasOne(app.model.House, {
-      foreignKey: 'id',
-      otherKey: 'houseId'
-    });
-    app.model.House.hasOne(Model, {
-      foreignKey: 'houseId',
-      otherKey: 'id'
+    Model.belongsTo(app.model.House, {
+      foreignKey: 'houseId'
     });
     // 与房东的关联关系声明
-    app.model.LandlordUser.hasMany(Model, {
-      foreignKey: 'userId',
-      otherKey: 'id'
-    });
     Model.belongsTo(app.model.LandlordUser, {
-      foreignKey: 'userId',
-      otherKey: 'id'
+      foreignKey: 'userId'
+    });
+    // 与租赁申请关系声明
+    Model.hasOne(app.model.LeaseApplication, {
+      foreignKey: 'rentalMarketId'
     });
   };
 

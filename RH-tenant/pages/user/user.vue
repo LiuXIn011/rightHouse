@@ -6,7 +6,7 @@
 			<s-image class="user-avatar" mode="aspectFill" :src="userInfo.headImg||avatarUrl"></s-image>
 			<view class="user-name" v-if="isLogin">{{userInfo.name}}</view>
 			<view class="user-name" @click="toLogin" v-if="!isLogin">点击登录</view>
-			<view class="user-signature" v-show="userInfo.remark">
+			<view class="user-signature" v-show="userInfo.remark && isLogin">
 				{{userInfo.remark || ''}}
 			</view>
 
@@ -14,6 +14,7 @@
 				<u-cell isLink icon="setting" title="个人设置" @click="showInfoSetting"></u-cell>
 				<u-cell isLink icon="warning" title="报修记录" @click="toPath('/house_pages/house/maintenanceList')">
 				</u-cell>
+				<u-cell isLink icon="star" title="我的收藏" @click="toPath('/house_pages/house/star')"></u-cell>
 				<u-cell isLink icon="clock" title="租房历史" @click="toPath('/house_pages/house/history')"></u-cell>
 			</u-cell-group>
 		</view>
@@ -146,9 +147,13 @@
 
 			},
 			toPath(url) {
-				uni.navigateTo({
-					url
-				})
+				if (this.isLogin) {
+					uni.navigateTo({
+						url
+					})
+				} else {
+					this.toLogin()
+				}
 			},
 			headImgAfterRead(event) {
 				let fileList = event.file
@@ -166,7 +171,7 @@
 				//上传
 				let token = uni.getStorageSync('token')
 				uni.uploadFile({
-					url: `${this.$baseUrl}api/file/upload`,
+					url: `${this.$baseUrl}/api/file/upload`,
 					header: {
 						'Authorization': token,
 						'content-type': 'application/x-www-form-urlencggoded;charset=UTF-8'

@@ -52,7 +52,7 @@
       </template>
       <template #images="{record}">
         <a-button
-          v-if="record.images" type="primary" size="mini"
+          v-if="record.images && record.images.length>0" type="primary" size="mini"
           @click="showImage(record)"
         >
           查看
@@ -188,7 +188,14 @@ const getlandlordListUser = () => {
     .then(({ status, data, count }) => {
       if (status === 1) {
         pagination.total = count || 0;
-        houseMaintenance = (data || [])
+        houseMaintenance = (data || []).map((item:any) => {
+          try {
+            item.images = JSON.parse(item.images)
+          } catch (error) {
+            item.images = []
+          }
+          return item
+        })
       }
     })
     .finally(() => {
@@ -215,7 +222,7 @@ const searchList = () => {
 let imagePreviewShow = ref(false)
 let imagePreviewList = ref([])
 const showImage = (data:any) => {
-  imagePreviewList.value = JSON.parse(data.images).map((item:any) => item.url)
+  imagePreviewList.value = data.images.map((item:any) => item.url)
   imagePreviewShow.value = true
 }
 let videoPreviewShow = ref(false)

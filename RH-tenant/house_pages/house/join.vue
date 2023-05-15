@@ -191,7 +191,7 @@
 		}
 
 		::v-deep .u-button {
-			margin-top: 20px;
+			margin-top: 40rpx;
 		}
 	}
 </style>

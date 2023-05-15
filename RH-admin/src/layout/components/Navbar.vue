@@ -19,14 +19,14 @@
           <IconUser />
         </a-avatar>
         <template #content>
-          <a-doption>
+          <!-- <a-doption>
             <a-space @click="userInfo">
               <icon-user />
               <span>
                 个人信息
               </span>
             </a-space>
-          </a-doption>
+          </a-doption> -->
           <a-doption>
             <a-space @click="uStore.logOut">
               <icon-export />

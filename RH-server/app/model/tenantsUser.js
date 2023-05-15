@@ -96,16 +96,8 @@ module.exports = app => {
       foreignKey: 'tenantId',
       otherKey: 'id'
     });
-    app.model.HouseMaintenance.belongsTo(Model, {
-      foreignKey: 'tenantId',
-      otherKey: 'id'
-    });
     // 与评论表的关系
     Model.hasMany(app.model.Comments, {
-      foreignKey: 'tenantId',
-      otherKey: 'id'
-    });
-    app.model.Comments.belongsTo(Model, {
       foreignKey: 'tenantId',
       otherKey: 'id'
     });

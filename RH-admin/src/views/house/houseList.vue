@@ -1,7 +1,7 @@
 <template>
   <div>
     <headForm :label-width="100">
-      <headFormItem label="用户名：">
+      <headFormItem label="房屋名称：">
         <a-input
           v-model="searchData.name" placeholder="请输入..." allow-clear
           @change="searchList"
@@ -159,7 +159,6 @@ const tableColumns: object[] = reactive([
   {
     title: '名称',
     dataIndex: 'name',
-    slotName: 'name'
   },
   {
     title: '省市区',
