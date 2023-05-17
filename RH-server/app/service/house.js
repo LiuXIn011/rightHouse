@@ -310,6 +310,13 @@ class HouseService extends Service {
         ]
       };
     }
+    // 是否限制时间
+    if (params.starTime && params.endTime) {
+      option.where.createdAt = {
+        [Op.gte]: params.starTime,
+        [Op.lte]: params.endTime
+      };
+    }
     // option.attributes = [ 'id', 'name', 'userId', 'parentId', 'provinceId', 'cityId', 'areaId', 'provinceName', 'cityName', 'areaName', 'addresInfo'];
     const data = await this.ctx.model.House.findAndCountAll(option);
     return data;

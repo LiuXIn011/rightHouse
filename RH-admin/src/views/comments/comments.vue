@@ -25,6 +25,12 @@
           @change="searchList"
         />
       </headFormItem>
+      <headFormItem label="创建时间：">
+        <a-range-picker
+          show-time
+          @change="datePickerChange"
+        />
+      </headFormItem>
       <headFormItem type="button" @search="searchList">
       </headFormItem>
     </headForm>
@@ -166,6 +172,8 @@ const searchData = reactive({
   house: '',
   landlord: '',
   tenant: '',
+  starTime: '',
+  endTime: '',
   size: pagination.pageSize,
   index: pagination.current
 });
@@ -201,6 +209,17 @@ const searchList = () => {
   searchData.index = 1;
   getCommentsFun();
 };
+
+const datePickerChange = (value: any) => {
+  if (value) {
+    searchData.starTime = value[0]
+    searchData.endTime = value[1]
+  } else {
+    searchData.starTime = ''
+    searchData.endTime = ''
+  }
+  searchList()
+}
 
 let imagePreviewShow = ref(false)
 let imagePreviewList = ref([])

@@ -196,6 +196,13 @@ class rentalMarket extends Service {
       option.limit = Number(params.size);
       option.offset = (Number(params.size) * (Number(params.index) - 1));
     }
+    // 是否限制时间
+    if (params.starTime && params.endTime) {
+      option.where.createdAt = {
+        [Op.gte]: params.starTime,
+        [Op.lte]: params.endTime
+      };
+    }
     const data = await this.ctx.model.RentalMarket.findAndCountAll(option);
     return data;
   }
