@@ -61,7 +61,6 @@ class TenantsUserController extends Controller {
         name: '用户' + phone,
         ...wxLoginData
       });
-      console.log(newUser.id);
       return newUser.id;
     }
     return false;

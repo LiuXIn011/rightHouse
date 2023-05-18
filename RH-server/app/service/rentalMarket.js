@@ -6,8 +6,7 @@ class rentalMarket extends Service {
     return rentalMarket;
   }
   async selectById(id, tenantId) {
-    const Op = this.app.Sequelize.Op;
-    const rentalMarket = await this.ctx.model.RentalMarket.findOne({
+    const option = {
       include: [
         {
           // 房屋信息
@@ -37,10 +36,7 @@ class rentalMarket extends Service {
           // 申请租赁信息
           model: this.app.model.LeaseApplication,
           where: {
-            status: {
-              [Op.ne]: 2
-            },
-            tenantId
+            status: 0
           },
           required: false
         }
@@ -48,7 +44,11 @@ class rentalMarket extends Service {
       where: {
         id
       }
-    });
+    };
+    if (tenantId) {
+      option.include[2].where.tenantId = tenantId;
+    }
+    const rentalMarket = await this.ctx.model.RentalMarket.findOne(option);
     return rentalMarket;
   }
   async selectByLandlordId({
@@ -271,7 +271,6 @@ class rentalMarket extends Service {
     rentalMarketId,
     status
   }) {
-    //
     const option = {
       attributes: [ 'hotDegree', 'houseId', 'status', 'id',
         // 计算点赞数量
@@ -301,7 +300,7 @@ class rentalMarket extends Service {
         {
           // 房东信息
           model: this.app.model.LandlordUser,
-          attributes: [ 'name', 'headImg', 'phone' ]
+          attributes: [ 'id', 'name', 'headImg', 'phone' ]
         },
         {
           // 关联表状态限制

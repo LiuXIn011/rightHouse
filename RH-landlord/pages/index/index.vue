@@ -19,7 +19,9 @@
 							<view class="house-info-item-info-item">
 								<text class="item-key">状态：</text>
 								<u-tag text="已租" v-if="hItem.status===2" size="mini" type="success"></u-tag>
-								<u-tag text="未租" v-if="hItem.status===1" size="mini" type="error"></u-tag>
+								<u-tag text="待租" v-if="hItem.status===1" size="mini" type="error"></u-tag>
+								<u-tag text="已发布" v-if="hItem.releaseFlag===1" size="mini" type="success"></u-tag>
+								<u-tag text="未发布" v-else size="mini" type="error"></u-tag>
 							</view>
 							<view class="house-info-item-info-item">
 								<text class="item-key">租金：</text>
@@ -31,16 +33,16 @@
 							</view>
 							<view class="house-info-item-info-item">
 								<text class="item-key">地址：</text>
-								<text
-									class="item-value">{{hItem.provinceName + hItem.cityName +hItem.areaName+hItem.addresInfo}}</text>
+								<text class="item-value">{{hItem.provinceName + hItem.cityName +hItem.areaName+hItem.addresInfo}}</text>
 							</view>
 						</view>
 					</view>
 					<view class="house-btn">
 						<u-button text="查看" size="mini" type="success" @click="editHouse(hItem,3)"></u-button>
-						<u-button text="租客" size="mini" type="primary" @click="tenants(hItem)"></u-button>
-						<u-button text="编辑" size="mini" type="warning" @click="editHouse(hItem,2)"></u-button>
-						<u-button text="删除" size="mini" type="error" @click="deleteHouse(hItem)"></u-button>
+						<u-button v-if="hItem.status===2" text="租客" size="mini" type="primary" @click="tenants(hItem)"></u-button>
+						<u-button v-if="hItem.status===1" text="编辑" size="mini" type="warning"
+							@click="editHouse(hItem,2)"></u-button>
+						<u-button v-if="hItem.status===1" text="删除" size="mini" type="error" @click="deleteHouse(hItem)"></u-button>
 					</view>
 				</view>
 				<u-empty v-if="item.houseList.length===0" mode="list" :text="isLogin?'暂无住房,点击右下角新增一个吧':'请登录后查看'">
@@ -82,7 +84,7 @@
 				this.list = [{
 					pid: 0,
 					title: "全部",
-					name:"",
+					name: "",
 					houseList: []
 				}]
 			}
@@ -289,6 +291,10 @@
 
 							.item-value {
 								color: #999;
+							}
+
+							::v-deep .u-tag-wrapper {
+								margin-right: 10rpx;
 							}
 						}
 					}
