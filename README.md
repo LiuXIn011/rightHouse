@@ -9,10 +9,13 @@
   <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/github/last-commit/LiuXIn011/rightHouse"></a>
   <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/github/stars/LiuXIn011/rightHouse.svg"></a>
   <a href='https://gitee.com/liuxin0128/right-house/stargazers'><img src='https://gitee.com/liuxin0128/right-house/badge/star.svg?theme=dark' alt='star'></img></a>
-
-  
 </p>
-
+<p align="center">
+  <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/badge/Vue-3.0%2B-brightgreen.svg"></a>
+  <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/badge/NodeJs-8%2B-brightgreen.svg"></a>
+  <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/badge/Npm-6.1.0%2B-brightgreen.svg"></a>
+  <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/badge/MySQL-5.7%2B-brightgreen.svg"></a>
+</p>
 
 ## 简介：
 <p style="text-indent: 2rem;">
@@ -33,6 +36,6 @@
 </p>
 
 ## 文档地址:
-[right-house-doc](https://www.runoob.com)
+[Github](https://liuxin011.github.io/RH-doc-release/)
 
-
+[![Stargazers repo roster for @LiuXIn011/rightHouse](https://reporoster.com/stars/LiuXIn011/rightHouse)](https://github.com/LiuXIn011/rightHouse/stargazers)
