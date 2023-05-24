@@ -7,6 +7,15 @@ class HouseService extends Service {
   async select(data) {
     const Op = this.app.Sequelize.Op;
     const houseList = await this.ctx.model.House.findAll({
+      attributes: {
+        include: [
+        // 是否已经发布
+          [
+            this.app.Sequelize.literal('(SELECT `status` FROM `rental_market` WHERE house_id=house.id)'),
+            'releaseFlag'
+          ]
+        ]
+      },
       where: {
         ...data,
         status: {
@@ -137,6 +146,14 @@ class HouseService extends Service {
           transaction
         });
       }
+      // 修改房屋状态为已租
+      const houseData = await this.ctx.model.House.findOne({
+        where: {
+          id: houseId
+        }
+      });
+      houseData.status = 2;
+      houseData.save();
       await transaction.commit();
       return true;
     } catch (e) {
@@ -190,6 +207,25 @@ class HouseService extends Service {
   async houseOut(data) {
     const transaction = await this.ctx.model.transaction();
     try {
+      // 计算该房屋的租客数量
+      const countTenantsByHouse = await this.app.model.HouseLinkTenant.count({
+        where: {
+          houseId: data.houseId,
+          status: 1
+        }
+      }, { transaction });
+      // 只有最后一个租客
+      if (countTenantsByHouse === 1) {
+        // 将房屋状态修改为待租
+        const houseData = await this.ctx.model.House.findOne({
+          where: {
+            id: data.houseId
+          },
+          transaction
+        });
+        houseData.status = 1;
+        houseData.save();
+      }
       // 解除租客和房子的关联
       this.ctx.model.HouseLinkTenant.update({
         status: 0
@@ -216,8 +252,9 @@ class HouseService extends Service {
         }],
         where: {
           userId: data.landlordId
-        }
-      }, { transaction });
+        },
+        transaction
+      });
       // 如果和房东关联的住房就剩1条记录  则解除房东和租客的关联
       if (findAllHouseBytenantIdAndlandlordId === 1) {
         // 解除租客和房东的关联
@@ -231,8 +268,7 @@ class HouseService extends Service {
           }
         });
       }
-      // 计算该房屋的租客数量
-      // 。。。
+
       await transaction.commit();
       return true;
     } catch (error) {
@@ -308,6 +344,13 @@ class HouseService extends Service {
             }
           }
         ]
+      };
+    }
+    // 是否限制时间
+    if (params.starTime && params.endTime) {
+      option.where.createdAt = {
+        [Op.gte]: params.starTime,
+        [Op.lte]: params.endTime
       };
     }
     // option.attributes = [ 'id', 'name', 'userId', 'parentId', 'provinceId', 'cityId', 'areaId', 'provinceName', 'cityName', 'areaName', 'addresInfo'];

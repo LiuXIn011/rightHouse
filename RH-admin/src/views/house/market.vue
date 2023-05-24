@@ -21,6 +21,12 @@
         >
         </a-select>
       </headFormItem>
+      <headFormItem label="创建时间：">
+        <a-range-picker
+          show-time
+          @change="datePickerChange"
+        />
+      </headFormItem>
       <headFormItem type="button" @search="searchList">
       </headFormItem>
     </headForm>
@@ -220,6 +226,8 @@ const searchData = reactive({
   houseName: '',
   landlordName: '',
   status: '',
+  endTime: '',
+  starTime: '',
   size: pagination.pageSize,
   index: pagination.current
 })
@@ -342,7 +350,19 @@ const showHouseInfo = (data:any) => {
 }
 
 const searchList = () => {
+  pagination.current = 1;
+  searchData.index = 1;
   getList()
+}
+const datePickerChange = (value: any) => {
+  if (value) {
+    searchData.starTime = value[0]
+    searchData.endTime = value[1]
+  } else {
+    searchData.starTime = ''
+    searchData.endTime = ''
+  }
+  searchList()
 }
 
 </script>

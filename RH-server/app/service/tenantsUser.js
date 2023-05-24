@@ -41,6 +41,13 @@ class UserService extends Service {
     ) {
       option.where.status = params.status;
     }
+    // 是否限制时间
+    if (params.starTime && params.endTime) {
+      option.where.createdAt = {
+        [Op.gte]: params.starTime,
+        [Op.lte]: params.endTime
+      };
+    }
     const data = await this.ctx.model.TenantsUser.findAndCountAll(option);
     return data;
   }

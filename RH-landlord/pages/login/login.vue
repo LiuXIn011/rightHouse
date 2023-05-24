@@ -32,7 +32,6 @@
 		methods: {
 			...mapMutations(["setLogin", "setUserInfo"]),
 			getPhoneNumber(res) {
-				console.log(res);
 				if (res.detail.errMsg != "getPhoneNumber:ok") {
 					uni.showToast({
 						title: "请授权！",

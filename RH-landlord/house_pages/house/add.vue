@@ -183,7 +183,6 @@
 					name: [{
 							required: true,
 							message: '此项为必填',
-							// blur和change事件触发检验
 							trigger: ['blur', 'change'],
 						},
 						{
@@ -193,29 +192,17 @@
 						},
 					],
 					fakePrice: [{
-							required: true,
-							message: '此项为必填',
-							// blur和change事件触发检验
-							trigger: ['blur', 'change'],
-						},
-						{
-							min: 0,
-							max: 20,
-							message: '文字长度在10个字符以内'
-						},
-					],
+						required: true,
+						type: 'float',
+						message: '此项为必填',
+						trigger: ['blur', 'change'],
+					}],
 					price: [{
-							required: true,
-							message: '此项为必填',
-							// blur和change事件触发检验
-							trigger: ['blur', 'change'],
-						},
-						{
-							min: 0,
-							max: 20,
-							message: '文字长度在10个字符以内'
-						},
-					],
+						required: true,
+						type: 'float',
+						message: '此项为必填',
+						trigger: ['blur', 'change'],
+					}],
 					// waterFee: [{
 					// 		validator: (rule, value, callback) => {
 					// 			return this.formData.waterFee !== '' && this.formData.waterFee !== null && this
@@ -272,12 +259,10 @@
 					addresInfo: [{
 						required: true,
 						message: '请填写详细地址',
-						// blur和change事件触发检验
 						trigger: ['blur', 'change'],
 					}],
 					headImg: [{
 						validator: (rule, value, callback) => {
-							console.log(this.formData.headImg);
 							return this.formData.headImg.every(item => item.status === 'success')
 						},
 						message: '请正确上传图片'
@@ -355,15 +340,19 @@
 					}
 
 				}).catch(errors => {
-					uni.$u.toast('校验失败')
+					console.log(errors);
+					uni.showToast({
+						icon: "error",
+						title: '校验失败'
+					})
 				})
 			},
 			release() {
-				this.$refs.formRef.validate().then(res => {
-					if (this.formData.rentalMarket) {
-						// 下架
-						this.unreleaseHouse()
-					} else {
+				if (this.formData.rentalMarket) {
+					// 下架
+					this.unreleaseHouse()
+				} else {
+					this.$refs.formRef.validate().then(res => {
 						// 发布
 						if (
 							(this.formData.headImg &&
@@ -378,6 +367,14 @@
 							return
 						}
 						if (this.formData.id) {
+							if (this.formData.status === 2) {
+								uni.showToast({
+									icon: "none",
+									title: "已经租赁的房屋无法发布"
+								})
+								return
+							}
+
 							// 先编辑再发布
 							this.$http.request({
 								url: "/api/house/update",
@@ -405,11 +402,12 @@
 								}
 							})
 						}
-					}
+					}).catch(errors => {
+						uni.$u.toast('校验失败')
+					})
+				}
 
-				}).catch(errors => {
-					uni.$u.toast('校验失败')
-				})
+
 			},
 			unreleaseHouse() {
 				uni.showModal({
@@ -551,18 +549,9 @@
 							this.formData.headImg = []
 						}
 						this.formData.id = data.id
+						this.formData.status = data.status
 						this.formData.rentalMarket = data.rentalMarket
 						this.defaultCity = `${data.provinceName}${data.cityName==='直辖市'?'':data.cityName}${data.areaName}`
-						// this.defaultCity = [{
-						// 		id: data.provinceId
-						// 	},
-						// 	{
-						// 		id: data.cityId
-						// 	},
-						// 	{
-						// 		id: data.areaId
-						// 	}
-						// ]
 					}
 				})
 			},

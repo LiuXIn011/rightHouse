@@ -3,19 +3,19 @@
 		<u-swipe-action>
 			<u-swipe-action-item @click="deleteItem(item)" v-for="(item,index) in list" :key="item.id"
 				:options="swipeActionOptions">
-				<view class="house-item" @click="toDetail(item.id)">
-					<image class="house-img" :src="item.house.firstImg" mode="aspectFill"></image>
+				<view class="house-item">
+					<image class="house-img" @click="toDetail(item.id)" :src="item.house.firstImg" mode="aspectFill"></image>
 					<view class="house-info">
-						<view class="house-name">
+						<view class="house-name" @click="toDetail(item.id)">
 							{{item.house.name}}
 						</view>
-						<view class="house-price">
+						<view class="house-price" @click="toDetail(item.id)">
 							￥{{item.house.price}}
 						</view>
-						<view class="house-star-count">
+						<view class="house-star-count" @click="toDetail(item.id)">
 							{{1}}人已收藏
 						</view>
-						<view class="house-landlord">
+						<view class="house-landlord" @click="toLandlordDetail(item.landlordUser.id)">
 							<image class="house-landlord-head" :src="item.landlordUser.headImg" mode="aspectFill"></image>
 							<view class="house-landlord-name">
 								{{item.landlordUser.name}}
@@ -98,6 +98,11 @@
 			toDetail(id) {
 				uni.navigateTo({
 					url: "/house_pages/house/detail?id=" + id,
+				})
+			},
+			toLandlordDetail(id) {
+				uni.navigateTo({
+					url: "/landlord_pages/detail/detail?id=" + id,
 				})
 			}
 		}

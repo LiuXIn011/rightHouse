@@ -60,6 +60,13 @@ class HouseMaintenance extends Service {
         [Op.like]: `%${params.createdUser}%`
       };
     }
+    // 是否限制时间
+    if (params.starTime && params.endTime) {
+      option.where.createdAt = {
+        [Op.gte]: params.starTime,
+        [Op.lte]: params.endTime
+      };
+    }
     // option.attributes = [ 'id', 'tenantId', 'houseId', 'title', 'status', 'images', 'video', 'createdAt', 'updatedAt' ];
     const data = await this.ctx.model.HouseMaintenance.findAndCountAll(option);
     return data;

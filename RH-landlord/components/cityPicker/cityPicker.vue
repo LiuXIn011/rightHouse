@@ -73,8 +73,8 @@
 								},
 								fail: () => {
 									uni.showToast({
-										icon: 'error',
-										title: '拒绝授权'
+										icon: 'none',
+										title: '无法获取位置，请打开位置设置'
 									})
 								}
 							})
@@ -92,26 +92,38 @@
 						} = data
 						if (errMsg === "chooseLocation:ok") {
 							let municipalityList = ['北京市', '上海市', '重庆市', '天津市']
-							// 是否是直辖市
-							let isMunicipality = municipalityList.some(item => address.includes(item))
-							if (isMunicipality) {
-								let reg =
-									'(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
-								let addressFormat = address.match(reg)
-								// 解析省市区
-								data.provinceName = addressFormat[1]
-								data.cityName = '直辖市'
-								data.areaName = addressFormat[2]
-								data.addresInfo = addressFormat[3]
+							
+							let reg =
+								'(?<province>[^省]+自治区|.*?省|.*?行政区|.*?市)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
+							let regMunicipality =
+								'(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
+							// 微信开发者工具和真机返回的数据格式不一致，需要兼容
+							let addressFormat = (address.match(reg) || address.match(regMunicipality))
+							if (addressFormat) {
+								if (addressFormat.length === 4) {
+									data.provinceName = addressFormat[1]
+									data.cityName = '直辖市'
+									data.areaName = addressFormat[2]
+									data.addresInfo = addressFormat[3]
+								} else {
+									let isMunicipality = municipalityList.some(item => address.includes(item))
+									if (isMunicipality) {
+										data.provinceName = addressFormat[1]
+										data.cityName = '直辖市'
+										data.areaName = addressFormat[3]
+										data.addresInfo = addressFormat[4]
+									} else {
+										data.provinceName = addressFormat[1]
+										data.cityName = addressFormat[2]
+										data.areaName = addressFormat[3]
+										data.addresInfo = addressFormat[4]
+									}
+								}
 							} else {
-								let reg =
-									'(?<province>[^省]+自治区|.*?省|.*?行政区|.*?市)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)(?<county>[^县]+县|.+区|.+市|.+旗|.+海域|.+岛)?(?<village>.*)'
-								let addressFormat = address.match(reg)
-								// 解析省市区
-								data.provinceName = addressFormat[1]
-								data.cityName = addressFormat[2]
-								data.areaName = addressFormat[3]
-								data.addresInfo = addressFormat[4]
+								uni.showToast({
+									icon: 'error',
+									title: '解析失败！'
+								})
 							}
 							this.$emit("change", data)
 							this.addresText = `${data.provinceName}${data.cityName==='直辖市'?'':data.cityName}${data.areaName}`

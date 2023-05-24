@@ -9,10 +9,13 @@
   <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/github/last-commit/LiuXIn011/rightHouse"></a>
   <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/github/stars/LiuXIn011/rightHouse.svg"></a>
   <a href='https://gitee.com/liuxin0128/right-house/stargazers'><img src='https://gitee.com/liuxin0128/right-house/badge/star.svg?theme=dark' alt='star'></img></a>
-
-  
 </p>
-
+<p align="center">
+  <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/badge/Vue-3.0%2B-brightgreen.svg"></a>
+  <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/badge/NodeJs-8%2B-brightgreen.svg"></a>
+  <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/badge/Npm-6.1.0%2B-brightgreen.svg"></a>
+  <a href="https://github.com/LiuXIn011/rightHouse"><img src="https://img.shields.io/badge/MySQL-5.7%2B-brightgreen.svg"></a>
+</p>
 
 ## 简介：
 <p style="text-indent: 2rem;">
@@ -24,7 +27,7 @@
 <p style="text-indent: 2rem;">
 客户端基于uni-app可发布到iOS、Android、Web（响应式）、以及各种小程序（微信/支付宝/百度/头条/飞书/QQ/快手/钉钉/淘宝）、快应用等多个平台。
 </p>
-<p style="text-indent: 2rem;">如果你觉得此项目具有学习价值，请点一个star。如果你觉得此项目具有商业价值，V我￥500W，我们上船，启航！</p>
+<p style="text-indent: 2rem;">如果你觉得此项目具有学习价值，请点一个star。如果你觉得此项目具有商业价值，V我$500W，我们上船，启航！😄</p>
 
 ## 技术栈：
 
@@ -33,6 +36,9 @@
 </p>
 
 ## 文档地址:
-[right-house-doc](https://www.runoob.com)
+<!-- [Github](https://liuxin011.github.io/RH-doc-release/) -->
+[文档](http://8.130.92.178:8888/RH-doc-release/)
 
-
+特别鸣谢 Star 过本项目的支持者们  
+(以下列表实时更新，排名不分先后)  
+[![Stargazers repo roster for @LiuXIn011/rightHouse](https://reporoster.com/stars/LiuXIn011/rightHouse)](https://github.com/LiuXIn011/rightHouse/stargazers)

@@ -21,6 +21,12 @@
         >
         </a-select>
       </headFormItem>
+      <headFormItem label="创建时间：">
+        <a-range-picker
+          show-time
+          @change="datePickerChange"
+        />
+      </headFormItem>
       <headFormItem type="button" @search="searchList">
       </headFormItem>
     </headForm>
@@ -156,6 +162,8 @@ const searchData = reactive({
   name: '',
   phone: '',
   status: '',
+  starTime: '',
+  endTime: '',
   size: pagination.pageSize,
   index: pagination.current
 });
@@ -191,6 +199,17 @@ const searchList = () => {
   searchData.index = 1;
   gettenantsListUser();
 };
+
+const datePickerChange = (value: any) => {
+  if (value) {
+    searchData.starTime = value[0]
+    searchData.endTime = value[1]
+  } else {
+    searchData.starTime = ''
+    searchData.endTime = ''
+  }
+  searchList()
+}
 
 const editUser = (data: any, status: number) => {
   const operationType = status === 1 ? '启用' : status === 2 ? '停用' : status === 3 ? '删除' : ''

@@ -34,7 +34,7 @@
 				</view>
 				<u-loadmore v-if="houseList.length>0" :status="loadmoreStatus" />
 			</view>
-			<u-empty text="暂无出租" mode="list" v-if="houseList.length===0">
+			<u-empty text="附近暂无出租" mode="list" v-if="houseList.length===0">
 			</u-empty>
 		</scroll-view>
 	</view>
@@ -56,6 +56,7 @@
 				amapPlugin: null,
 				locationAddressText: "",
 				addressInfo: {},
+				isFirstLoad: true,
 				loadmoreStatus: "loadmore",
 			}
 		},
@@ -63,9 +64,13 @@
 			this.amapPlugin = new amap.AMapWX({
 				key: this.$mapKey
 			});
+			this.getUserLocationAuth(2)
 		},
 		onShow() {
-			this.getUserLocationAuth(2)
+			if (!isFirstLoad) {
+				this.getList()
+			}
+			this.isFirstLoad = false
 		},
 		methods: {
 			scrolltolower() {
@@ -145,8 +150,8 @@
 								},
 								fail: () => {
 									uni.showToast({
-										icon: 'error',
-										title: '拒绝授权'
+										icon: 'none',
+										title: '无法获取位置，请打开位置设置。'
 									})
 									setTimeout(() => {
 										this.searchData.latitude = ''
@@ -166,9 +171,17 @@
 						const {
 							errMsg,
 							latitude,
-							longitude
+							longitude,
+							name
 						} = data
+						console.log(data);
 						if (errMsg === "chooseLocation:ok") {
+							// 控制12个字符以内
+							if (name.length > 12) {
+								this.locationAddressText = name.slice(0, 12) + '...'
+							} else {
+								this.locationAddressText = name
+							}
 							this.searchData.latitude = latitude
 							this.searchData.longitude = longitude
 							this.searchList()
