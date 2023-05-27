@@ -85,6 +85,7 @@ module.exports = appInfo => {
     dialect: 'mysql',
     host: '',
     port: 3306,
+    timezone: '+08:00',
     database: 'right_house_db',
     username: '',
     password: ''
