@@ -37,7 +37,7 @@
 
 ## 文档地址:
 <!-- [Github](https://liuxin011.github.io/RH-doc-release/) -->
-[文档](http://8.130.92.178/RH-doc-release/)
+[文档](http://8.130.92.178:8888/RH-doc-release/)
 
 特别鸣谢 Star 过本项目的支持者们  
 (以下列表实时更新，排名不分先后)  
