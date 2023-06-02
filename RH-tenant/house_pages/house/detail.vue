@@ -19,28 +19,30 @@
 					<u-icon :size="26" name="phone" @click="callUser"></u-icon>
 				</view>
 			</view>
-			<u--form :labelWidth='80' labelPosition="left" labelAlign="right">
-				<u-divider text="租金信息"></u-divider>
+			<u-divider text="租金信息"></u-divider>
+			<u--form class="form-card" :labelWidth='80' labelPosition="left" labelAlign="right">
 				<u-form-item label="租金:">
 					<u--text type="error" :text="'￥'+(houseInfo.price || '错误')"></u--text>
 				</u-form-item>
 				<u-form-item label="付款方式:">
-					<text>押：{{houseInfo.depositNumber || ''}}月</text>
-					<text>付：{{houseInfo.priceNumber || ''}}月</text>
+					<text>押：{{houseInfo.depositNumber || 0}}月</text>
+					<text>付：{{houseInfo.priceNumber || 0}}月</text>
 				</u-form-item>
-				<u-form-item label="水费:">
-					<text>{{houseInfo.waterFee || 0}}元/吨</text>
+				<u-form-item label="水费:" v-if="houseInfo.waterFee !== null">
+					<text>{{houseInfo.waterFee}}元/吨</text>
 				</u-form-item>
-				<u-form-item label="电费:">
-					<text>{{houseInfo.electricityFee || 0}}元/度</text>
+				<u-form-item label="电费:" v-if="houseInfo.electricityFee !== null">
+					<text>{{houseInfo.electricityFee}}元/度</text>
 				</u-form-item>
-				<u-form-item label="网费:">
-					<text>{{houseInfo.internetFee || 0}}元/年</text>
+				<u-form-item label="网费:" v-if="houseInfo.internetFee !== null">
+					<text>{{houseInfo.internetFee}}元/年</text>
 				</u-form-item>
-				<u-form-item label="燃气费:">
-					<text>{{houseInfo.fuelFee || 0}}元/月</text>
+				<u-form-item label="燃气费:" v-if="houseInfo.fuelFee !== null">
+					<text>{{houseInfo.fuelFee}}元/月</text>
 				</u-form-item>
-				<u-divider text="房间信息"></u-divider>
+			</u--form>
+			<u-divider text="房间信息"></u-divider>
+			<u--form class="form-card" :labelWidth='80' labelPosition="left" labelAlign="right">
 				<u-form-item label="地址:">
 					<view class="df">
 						<text>{{houseInfo.provinceName || ''}}</text>
@@ -49,33 +51,56 @@
 						<text>{{houseInfo.addresInfo || ''}}</text>
 					</view>
 				</u-form-item>
-				<u-form-item label="面积:">
-					<text>{{houseInfo.area || ''}}</text>
+				<u-form-item label="面积:" v-if="houseInfo.area !== null">
+					<text>{{houseInfo.area}}</text>
 				</u-form-item>
-				<u-form-item label="楼层:">
-					<text>{{houseInfo.floor || ''}}</text>
+				<u-form-item label="楼层:" v-if="houseInfo.floor !== null">
+					<text>{{houseInfo.floor}}</text>
 				</u-form-item>
-				<u-form-item label="朝向:">
+				<u-form-item label="朝向:" v-if="houseInfo.toward !== null">
 					<text v-if="houseInfo.toward===1">东</text>
 					<text v-if="houseInfo.toward===2">西</text>
 					<text v-if="houseInfo.toward===3">南</text>
 					<text v-if="houseInfo.toward===4">北</text>
 				</u-form-item>
-				<u-form-item label="卫生间:">
+				<u-form-item label="卫生间:" v-if="houseInfo.toilet !== null">
 					<text v-if="houseInfo.toilet===0">没有</text>
 					<text v-if="houseInfo.toilet===1">独立</text>
 					<text v-if="houseInfo.toilet===2">公用</text>
 				</u-form-item>
-				<u-form-item label="厨房:">
+				<u-form-item label="厨房:" v-if="houseInfo.kitchen !== null">
 					<text v-if="houseInfo.kitchen===0">没有</text>
 					<text v-if="houseInfo.kitchen===1">独立</text>
 					<text v-if="houseInfo.kitchen===2">公用</text>
 				</u-form-item>
-				<u-form-item label="阳台:">
+				<u-form-item label="阳台:" v-if="houseInfo.balcony !== null">
 					<text v-if="houseInfo.balcony===1">有</text>
 					<text v-if="houseInfo.balcony===0">无</text>
 				</u-form-item>
 			</u--form>
+			<u-divider text="评论信息"></u-divider>
+			<view class="comment-view">
+				<view class="comment-item" v-for="(item,index) in houseComments" :key="index">
+					<view class="comment-head">
+						<view class="comment-user">
+							<image class="comment-user-head" :src="item.tenantsUser.headImg" mode="aspectFill"></image>
+							<view class="comment-user-name">
+								{{item.tenantsUser.name}}
+							</view>
+						</view>
+						<u-rate :size="22" readonly active-color="#FFA92F" v-model="item.houseScore"></u-rate>
+					</view>
+					<view class="comment-text">
+						{{item.houseComment}}
+					</view>
+					<view class="comment-img">
+						<image class="comment-img-item" v-for="(imgItem,imgIndex) in item.houseCommentImg" :key="imgItem.url"
+							:src="imgItem.url" mode="aspectFill" @click="previewImage(item.houseCommentImg,imgIndex)"></image>
+					</view>
+				</view>
+				<u-empty mode="list" text="暂无评论" v-if="houseComments.length===0">
+				</u-empty>
+			</view>
 			<u-button v-if="!leaseApplication" color="#FFA92F" @click="leaseHouse" :loading="btnloading" shape="circle"
 				text="租赁"></u-button>
 			<u-divider v-else text="已向房东发送租赁请求"></u-divider>
@@ -92,6 +117,7 @@
 					headImg: []
 				},
 				landlordInfo: {},
+				houseComments: [],
 				leaseApplication: null,
 				btnloading: false
 			}
@@ -119,6 +145,10 @@
 							data.house.headImg = []
 						}
 						this.houseInfo = data.house
+						this.houseComments = (data.houseComments || []).map(item => {
+							item.houseCommentImg = JSON.parse(item.houseCommentImg)
+							return item
+						})
 						this.landlordInfo = data.landlordUser
 						this.leaseApplication = data.leaseApplication
 					}
@@ -206,6 +236,12 @@
 				uni.navigateTo({
 					url: "/landlord_pages/detail/detail?id=" + id,
 				})
+			},
+			previewImage(list, current) {
+				uni.previewImage({
+					current,
+					urls: list.map(item => item.url)
+				})
 			}
 		}
 	}
@@ -214,6 +250,8 @@
 <style scoped lang="scss">
 	.house-info {
 		padding: 20rpx 36rpx 200rpx;
+		background-color: #fff;
+
 
 		.landlord-bar {
 			display: flex;
@@ -284,6 +322,71 @@
 
 		::v-deep .u-button {
 			margin-top: 40rpx;
+		}
+	}
+
+	.comment-view {
+		width: 100%;
+		box-sizing: border-box;
+
+		.comment-item {
+			box-sizing: border-box;
+			overflow: hidden;
+			margin-top: 20rpx;
+			padding: 20rpx;
+
+			.comment-head {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				.comment-user {
+					display: flex;
+					align-items: center;
+
+					.comment-user-head {
+						width: 40rpx;
+						height: 40rpx;
+						border-radius: 50%;
+						margin-right: 10rpx;
+						background-color: #f8f8f8;
+					}
+
+					.comment-user-name {
+						font-size: 24rpx;
+						color: #666;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						overflow: hidden;
+					}
+				}
+			}
+
+			.comment-text {
+				font-size: 28rpx;
+				color: #333;
+				text-align: justify;
+				margin-top: 20rpx;
+			}
+
+			.comment-img {
+				display: flex;
+				flex-wrap: wrap;
+				margin-top: 20rpx;
+
+				.comment-img-item {
+					width: 200rpx;
+					height: 200rpx;
+					margin-bottom: 22rpx;
+					margin-right: 22rpx;
+					background-color: #f8f8f8;
+					border-radius: 10rpx;
+
+					&:nth-child(3n) {
+						margin-right: 0;
+					}
+				}
+			}
 		}
 	}
 </style>

@@ -39,6 +39,24 @@ class rentalMarket extends Service {
             status: 0
           },
           required: false
+        },
+        // 评论
+        {
+          model: this.ctx.model.Comments,
+          required: false,
+          as: 'houseComments',
+          attributes: [ 'houseComment', 'houseCommentImg', 'houseScore' ],
+          where: {
+            status: 1
+          },
+          include: [
+            {
+              // 租客
+              model: this.ctx.model.TenantsUser,
+              required: true,
+              attributes: [ 'name', 'id', 'headImg' ]
+            }
+          ]
         }
       ],
       where: {

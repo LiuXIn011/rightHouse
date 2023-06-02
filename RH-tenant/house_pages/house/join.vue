@@ -12,19 +12,19 @@
 					<u--text type="error" :text="'￥'+(houseInfo.price || '错误')"></u--text>
 				</u-form-item>
 				<u-form-item label="付款方式:">
-					<text>押：{{houseInfo.depositNumber || ''}}月</text>
-					<text>付：{{houseInfo.priceNumber || ''}}月</text>
+					<text>押：{{houseInfo.depositNumber || 0}}月</text>
+					<text>付：{{houseInfo.priceNumber || 0}}月</text>
 				</u-form-item>
-				<u-form-item label="水费:">
+				<u-form-item label="水费:" v-if="houseInfo.waterFee !== null">
 					<text>{{houseInfo.waterFee || 0}}元/吨</text>
 				</u-form-item>
-				<u-form-item label="电费:">
+				<u-form-item label="电费:" v-if="houseInfo.electricityFee !== null">
 					<text>{{houseInfo.electricityFee || 0}}元/度</text>
 				</u-form-item>
-				<u-form-item label="网费:">
+				<u-form-item label="网费:" v-if="houseInfo.internetFee !== null">
 					<text>{{houseInfo.internetFee || 0}}元/年</text>
 				</u-form-item>
-				<u-form-item label="燃气费:">
+				<u-form-item label="燃气费:" v-if="houseInfo.fuelFee !== null">
 					<text>{{houseInfo.fuelFee || 0}}元/月</text>
 				</u-form-item>
 				<u-divider text="房间信息"></u-divider>
@@ -36,29 +36,29 @@
 						<text>{{houseInfo.addresInfo || ''}}</text>
 					</view>
 				</u-form-item>
-				<u-form-item label="面积:">
+				<u-form-item label="面积:" v-if="houseInfo.area !== null">
 					<text>{{houseInfo.area || ''}}</text>
 				</u-form-item>
-				<u-form-item label="楼层:">
+				<u-form-item label="楼层:" v-if="houseInfo.floor !== null">
 					<text>{{houseInfo.floor || ''}}</text>
 				</u-form-item>
-				<u-form-item label="朝向:">
+				<u-form-item label="朝向:" v-if="houseInfo.toward !== null">
 					<text v-if="houseInfo.toward===1">东</text>
 					<text v-if="houseInfo.toward===2">西</text>
 					<text v-if="houseInfo.toward===3">南</text>
 					<text v-if="houseInfo.toward===4">北</text>
 				</u-form-item>
-				<u-form-item label="卫生间:">
+				<u-form-item label="卫生间:" v-if="houseInfo.toilet !== null">
 					<text v-if="houseInfo.toilet===0">没有</text>
 					<text v-if="houseInfo.toilet===1">独立</text>
 					<text v-if="houseInfo.toilet===2">公用</text>
 				</u-form-item>
-				<u-form-item label="厨房:">
+				<u-form-item label="厨房:" v-if="houseInfo.kitchen !== null">
 					<text v-if="houseInfo.kitchen===0">没有</text>
 					<text v-if="houseInfo.kitchen===1">独立</text>
 					<text v-if="houseInfo.kitchen===2">公用</text>
 				</u-form-item>
-				<u-form-item label="阳台:">
+				<u-form-item label="阳台:" v-if="houseInfo.balcony !== null">
 					<text v-if="houseInfo.balcony===1">有</text>
 					<text v-if="houseInfo.balcony===0">无</text>
 				</u-form-item>
@@ -165,6 +165,7 @@
 <style lang="scss" scoped>
 	.house-info {
 		padding: 20rpx 36rpx 200rpx;
+		background-color: #fff;
 
 		.house-name {
 			font-size: 40rpx;
