@@ -72,6 +72,12 @@ module.exports = app => {
     Model.hasOne(app.model.LeaseApplication, {
       foreignKey: 'rentalMarketId'
     });
+    // 与评论关联
+    Model.hasMany(app.model.Comments, {
+      sourceKey: 'houseId',
+      foreignKey: 'houseId',
+      as: 'houseComments'
+    });
   };
 
   return Model;
