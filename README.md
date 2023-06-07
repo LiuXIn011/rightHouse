@@ -37,8 +37,8 @@
 
 ## 文档地址:
 <!-- [Github](https://liuxin011.github.io/RH-doc-release/) -->
-[文档](http://8.130.92.178:8888/RH-doc-release/)
+[文档](https://doc.right-house.love/)
 
-特别鸣谢 Star 过本项目的支持者们  
-(以下列表实时更新，排名不分先后)  
+## 鸣谢 
+特别鸣谢Star 过本项目的支持者们(以下列表实时更新，排名不分先后)  
 [![Stargazers repo roster for @LiuXIn011/rightHouse](https://reporoster.com/stars/LiuXIn011/rightHouse)](https://github.com/LiuXIn011/rightHouse/stargazers)
