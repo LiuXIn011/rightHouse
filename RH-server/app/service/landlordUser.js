@@ -210,10 +210,6 @@ class UserService extends Service {
           where: {
             status: 1
           },
-          // 排序
-          order: [
-            [ 'hotDegree', 'DESC' ]
-          ],
           include: [
             {
               // 房屋信息
@@ -237,13 +233,13 @@ class UserService extends Service {
               required: true,
               attributes: [ 'name', 'id', 'headImg' ]
             }
-          ],
-          // 排序
-          order: [
-            [ 'landlordScore', 'DESC' ]
           ]
         }
-      ]
+      ],
+      // 排序
+      order: [
+        [ 'rentalMarkets', 'hotDegree', 'DESC' ]
+      ],
     });
   }
 }
