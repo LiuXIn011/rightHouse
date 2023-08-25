@@ -12,7 +12,7 @@
     <div ref="slotdom" class="lable-box">
       <p
         v-if="label !== null && label !== undefined && label !== ''"
-        :style="{ width: `${currentLabelWidth()}px`, textAlign: labelAlign }"
+        :style="`width:${currentLabelWidth()}px;text-align:${labelAlign};`"
       >
         {{ label }}
       </p>

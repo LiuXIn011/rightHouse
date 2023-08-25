@@ -34,7 +34,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-app",
+    "start": "egg-scripts start --title=egg-server-app",
     "stop": "egg-scripts stop --title=egg-server-app",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
