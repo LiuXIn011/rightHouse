@@ -1,0 +1,26 @@
+# 打包
+FROM node:16.17.1 as build-stage
+
+RUN mkdir /opt/RH-admin
+WORKDIR /opt/RH-admin
+
+COPY /RH-admin/package.json /opt/RH-admin/package.json
+
+RUN yarn install
+
+COPY /RH-admin /opt/RH-admin
+# 替换配置文件
+RUN rm /opt/RH-admin/.env
+COPY /docker/admin_config /opt/RH-admin/.env
+RUN npm run build
+
+# 部署nginx
+FROM nginx:1.25.2 as production-stage
+
+COPY --from=build-stage /opt/RH-admin/dist /opt/dist
+
+RUN rm /etc/nginx/conf.d/default.conf
+RUN rm /etc/nginx/nginx.conf
+COPY /docker/nginx.conf /etc/nginx/
+
+CMD ["nginx", "-g", "daemon off;"]

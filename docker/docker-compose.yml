@@ -1,0 +1,77 @@
+version: '3'
+services:
+ 
+  right_house_server:
+    build:
+        context: ../
+        dockerfile: docker/RH-server-Dockerfile
+    container_name: right-house-server
+    expose:
+        - "7001"
+    restart: 'on-failure'
+    depends_on:
+            - mysql
+            - redis
+            - minio
+    network_mode: "host"
+
+
+  right_house_admin:
+    build:
+        context: ../
+        dockerfile: docker/RH-admin-Dockerfile
+    container_name: right-house-admin
+    expose:
+        - "8088"
+    restart: 'on-failure'
+    network_mode: "host"
+
+  mysql:
+    image: mysql:8.0.33
+    command:
+            - --default-authentication-plugin=mysql_native_password
+    network_mode: "host"
+    restart: 'on-failure'
+    container_name: right-house-mysql
+    expose:
+        - "3306"
+    volumes:
+            - './init-sql:/docker-entrypoint-initdb.d'
+           # - '/opt/rightHouse/docker/data/mysql/conf/my.cnf:/etc/my.cnf'
+           # - '/opt/rightHouse/docker/data/mysql/log:/var/log/mysql'
+            - '/etc/timezone:/etc/timezone:ro'
+            - '/etc/localtime:/etc/localtime:ro'
+            - '/opt/rightHouse/docker/data/mysql/data:/var/lib/mysql'
+
+    environment:
+             - MYSQL_ROOT_PASSWORD=right_house_sql_980128
+
+  redis:
+    image: redis:7.0.12
+    network_mode: "host"
+    restart: 'on-failure'
+    expose:
+        - "6379"
+    container_name: right-house-redis
+    volumes:
+            - '/opt/rightHouse/docker/data/redis/data:/data'
+            - '/opt/rightHouse/docker/data/redis/conf/redis.conf:/etc/redis/redis.conf'
+            - '/opt/rightHouse/docker/data/redis/logs:/logs'
+    command: redis-server  /etc/redis/redis.conf --requirepass right_house_redis_980128
+
+
+  minio:
+    image: minio/minio:RELEASE.2023-05-04T21-44-30Z
+    network_mode: "host"
+    restart: 'on-failure'
+    container_name: right-house-minio
+    expose:
+        - "9000"
+        - "9001"
+    command: server /data --console-address :9000 --address :9001
+    volumes:
+            - '/opt/rightHouse/docker/data/redis/data:/data'
+    environment:
+                - MINIO_ROOT_USER=right_house_minio
+                - MINIO_ROOT_PASSWORD=right_house_minio_980128
+      

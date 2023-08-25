@@ -39,3 +39,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# docker缓存文件
+/docker/data

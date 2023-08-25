@@ -10,13 +10,13 @@ const comments = require('./routerModules/comments');
 const rentalMarket = require('./routerModules/rentalMarket');
 const leaseApplication = require('./routerModules/leaseApplication');
 
-/**
- * @param {Egg.Application} app - egg application
- */
 module.exports = async app => {
-  if (app.config.env === 'local') {
+  // 线上环境默认每次启动构建数据库
+  if (app.config.env === 'prod') {
     // 初始化数据库 { force: true }重置
-    // app.model.sync();
+    app.model.sync({
+      alter: true
+    });
   }
 
   landlordUser(app);
