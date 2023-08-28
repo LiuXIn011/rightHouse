@@ -44,7 +44,14 @@ export default (router: Router) => {
     ) {
       const data: any = to
       data.title = data.meta.title
-      routerStore.pushHistoryRouter(data)
+      routerStore.pushHistoryRouter({
+        title: data.title,
+        name: data.name,
+        fullPath: data.fullPath,
+        path: data.path,
+        query: data.query,
+        ignoreCache: data.ignoreCache
+      })
     }
   })
 }
