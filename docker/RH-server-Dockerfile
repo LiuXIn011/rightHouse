@@ -7,8 +7,5 @@ COPY /RH-server/package.json /opt/RH-server/package.json
 RUN yarn install
 
 COPY /RH-server /opt/RH-server
-# 替换配置文件
-RUN rm /opt/RH-server/config/config.default.js
-COPY /docker/server_config /opt/RH-server/config/config.default.js
 
 CMD npm run start

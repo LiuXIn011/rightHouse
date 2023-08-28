@@ -37,11 +37,11 @@ services:
         - "3306"
     volumes:
             - './init-sql:/docker-entrypoint-initdb.d'
-           # - '/opt/rightHouse/docker/data/mysql/conf/my.cnf:/etc/my.cnf'
-           # - '/opt/rightHouse/docker/data/mysql/log:/var/log/mysql'
+           # - '../docker/data/mysql/conf/my.cnf:/etc/my.cnf'
+           # - '../docker/data/mysql/log:/var/log/mysql'
             - '/etc/timezone:/etc/timezone:ro'
             - '/etc/localtime:/etc/localtime:ro'
-            - '/opt/rightHouse/docker/data/mysql/data:/var/lib/mysql'
+            - '../docker/data/mysql/data:/var/lib/mysql'
 
     environment:
              - MYSQL_ROOT_PASSWORD=right_house_sql_980128
@@ -54,9 +54,9 @@ services:
         - "6379"
     container_name: right-house-redis
     volumes:
-            - '/opt/rightHouse/docker/data/redis/data:/data'
-            - '/opt/rightHouse/docker/data/redis/conf/redis.conf:/etc/redis/redis.conf'
-            - '/opt/rightHouse/docker/data/redis/logs:/logs'
+            - '../docker/data/redis/data:/data'
+            - '../docker/data/redis/conf/redis.conf:/etc/redis/redis.conf'
+            - '../docker/data/redis/logs:/logs'
     command: redis-server  /etc/redis/redis.conf --requirepass right_house_redis_980128
 
 
@@ -70,7 +70,7 @@ services:
         - "9001"
     command: server /data --console-address :9000 --address :9001
     volumes:
-            - '/opt/rightHouse/docker/data/redis/data:/data'
+            - '../docker/data/redis/data:/data'
     environment:
                 - MINIO_ROOT_USER=right_house_minio
                 - MINIO_ROOT_PASSWORD=right_house_minio_980128
